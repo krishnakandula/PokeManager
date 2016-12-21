@@ -10,6 +10,7 @@ import com.canvas.krish.pokemanager.R;
 
 public class PokemonListActivity extends AppCompatActivity {
     private static final String LOG_TAG = PokemonListActivity.class.getSimpleName();
+    private final String LIST_FRAGMENT_TAG = "POKEMON_LIST_FRAGMENT_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +24,12 @@ public class PokemonListActivity extends AppCompatActivity {
 
     private void initFragment(Fragment pokemonListFragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.pokemon_list_container, pokemonListFragment)
-                .commit();
+        Fragment fragment = fragmentManager.findFragmentByTag(LIST_FRAGMENT_TAG);
+        if(fragment == null) {
+            fragmentManager.beginTransaction().
+                    replace(R.id.pokemon_list_container, pokemonListFragment, LIST_FRAGMENT_TAG).
+                    commit();
+        }
     }
 
     @Override
