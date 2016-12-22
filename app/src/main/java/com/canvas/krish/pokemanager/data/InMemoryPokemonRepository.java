@@ -12,6 +12,11 @@ import java.util.List;
 public class InMemoryPokemonRepository implements PokemonRepository {
 
     List<Pokemon> mCachedPokemon;
+    private PokemonServiceApi mPokemonServiceApi;
+
+    protected InMemoryPokemonRepository(PokemonServiceApi pokemonServiceApi){
+        this.mPokemonServiceApi = pokemonServiceApi;
+    }
 
     //TODO: Fill out these methods
     @Override
@@ -21,6 +26,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
             for(int i = 0; i < 100; i++){
                 mCachedPokemon.add(new Pokemon(i));
             }
+            mPokemonServiceApi.getPokemonList(0, 10, pokemon -> mCachedPokemon = pokemon);
         }
         callback.onPokemonLoaded(mCachedPokemon);
     }

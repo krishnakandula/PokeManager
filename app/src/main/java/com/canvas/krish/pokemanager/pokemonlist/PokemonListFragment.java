@@ -18,9 +18,6 @@ import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Krishna Chaitanya Kandula on 12/19/2016.
@@ -31,13 +28,10 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     private static final String TWO_PANE_UI_KEY = "TWO_PANE_UI_KEY";
     private boolean mTwoPaneUI;
 
-//    @BindView(R.id.pokemon_list_recycler_view)RecyclerView mPokemonRecyclerView;
     private RecyclerView mPokemonRecyclerView;
     private PokemonListAdapter mPokemonListAdapter;
     private PokemonListContract.UserActionsListener mActionsListener;
-    private Unbinder mUnbinder;
 
-    //TODO: Add parameters
     public static PokemonListFragment newInstance(boolean isUiTwoPane){
         PokemonListFragment fragment = new PokemonListFragment();
 
@@ -60,9 +54,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pokemon_item_list, container, false);
-//        mUnbinder = ButterKnife.bind(this, view);
         mPokemonRecyclerView = (RecyclerView) view.findViewById(R.id.pokemon_list_recycler_view);
-//        Log.d(LOG_TAG, "setting up recyclerview");
         setupRecyclerView();
         return view;
     }
@@ -92,6 +84,5 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        mUnbinder.unbind();
     }
 }

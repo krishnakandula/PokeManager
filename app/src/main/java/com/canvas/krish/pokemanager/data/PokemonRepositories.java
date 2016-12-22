@@ -1,5 +1,7 @@
 package com.canvas.krish.pokemanager.data;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Krishna Chaitanya Kandula on 12/20/2016.
  * Singleton class that retrieves the appropriate repository
@@ -14,7 +16,7 @@ public class PokemonRepositories {
     public synchronized static PokemonRepository getInMemoryPokemonRepository(){
 //        com.google.common.base.Preconditions.checkNotNull()
         if(sRepositories == null)
-            sRepositories = new InMemoryPokemonRepository();
+            sRepositories = new InMemoryPokemonRepository(new PokemonServiceImpl());
 
         return sRepositories;
     }

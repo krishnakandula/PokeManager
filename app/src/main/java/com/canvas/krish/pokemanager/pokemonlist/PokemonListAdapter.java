@@ -13,10 +13,6 @@ import com.canvas.krish.pokemanager.data.Pokemon;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 import static com.google.common.base.Preconditions.*;
 
 /**
