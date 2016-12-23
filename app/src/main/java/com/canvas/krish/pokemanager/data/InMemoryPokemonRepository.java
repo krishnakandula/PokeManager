@@ -23,7 +23,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
 
     @Override
     public void getPokemonList(@NonNull final LoadPokemonCallback callback) {
-        if(mCachedPokemon == null || mCachedPokemon.size() == 0){
+        if(mCachedPokemon == null || mCachedPokemon.isEmpty()){
             mCachedPokemon = new ArrayList<>();
             mPokemonServiceApi.getPokemonList(0, 810, new PokemonServiceApi.PokemonServiceCallback<List<Pokemon>>() {
                 @Override

@@ -25,18 +25,11 @@ class PokemonServiceImpl implements PokemonServiceApi {
 
     @Override
     public void getPokemonList(int minId, int maxId, final PokemonServiceCallback<List<Pokemon>> callback) {
-        //Add logging interceptor to Retrofit
-//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//        httpClient.addInterceptor(loggingInterceptor);
-
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).
-//                client(httpClient.build()).
                 build();
         PokemonEndpointAPI api = retrofit.create(PokemonEndpointAPI.class);
-        Call<PokemonList> call = api.loadPokemonList(10);
+        Call<PokemonList> call = api.loadPokemonList(811, 0);
         call.enqueue(new Callback<PokemonList>() {
             @Override
             public void onResponse(Call<PokemonList> call, Response<PokemonList> response) {
