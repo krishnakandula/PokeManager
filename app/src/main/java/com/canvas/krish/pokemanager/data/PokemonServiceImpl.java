@@ -7,6 +7,8 @@ import com.canvas.krish.pokemanager.data.models.PokemonList;
 
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +25,16 @@ class PokemonServiceImpl implements PokemonServiceApi {
 
     @Override
     public void getPokemonList(int minId, int maxId, final PokemonServiceCallback<List<Pokemon>> callback) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        //Add logging interceptor to Retrofit
+//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//        httpClient.addInterceptor(loggingInterceptor);
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).
+                addConverterFactory(GsonConverterFactory.create()).
+//                client(httpClient.build()).
+                build();
         PokemonEndpointAPI api = retrofit.create(PokemonEndpointAPI.class);
         Call<PokemonList> call = api.loadPokemonList(10);
         call.enqueue(new Callback<PokemonList>() {
@@ -33,7 +44,7 @@ class PokemonServiceImpl implements PokemonServiceApi {
                     Throwable t = new Throwable("Could not retrieve data. Error code: " + response.code());
                     onFailure(call, t);
                 } else {
-                    Log.d(LOG_TAG, response.body().getPokemonList().toString());
+                    System.out.println(response.body().getNext());
                     callback.onLoaded(response.body().getPokemonList());
                 }
             }
@@ -49,4 +60,5 @@ class PokemonServiceImpl implements PokemonServiceApi {
     public void getPokemon(int id, PokemonServiceCallback<Pokemon> callback) {
         //TODO: Write PokemonServiceImpl.getPokemon()
     }
+
 }

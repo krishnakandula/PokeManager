@@ -35,4 +35,10 @@ public final class Pokemon {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        String string = String.format("%d: %s", id, name);
+        return string;
+    }
 }

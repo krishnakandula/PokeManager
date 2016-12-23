@@ -21,19 +21,20 @@ public class InMemoryPokemonRepository implements PokemonRepository {
         this.mPokemonServiceApi = pokemonServiceApi;
     }
 
-    //TODO: Fill out these methods
     @Override
-    public void getPokemonList(@NonNull LoadPokemonCallback callback) {
+    public void getPokemonList(@NonNull final LoadPokemonCallback callback) {
         if(mCachedPokemon == null || mCachedPokemon.size() == 0){
             mCachedPokemon = new ArrayList<>();
             mPokemonServiceApi.getPokemonList(0, 810, new PokemonServiceApi.PokemonServiceCallback<List<Pokemon>>() {
                 @Override
                 public void onLoaded(List<Pokemon> pokemon) {
                     mCachedPokemon = pokemon;
+                    callback.onPokemonLoaded(mCachedPokemon);
                 }
             });
+        } else{
+            callback.onPokemonLoaded(mCachedPokemon);
         }
-        callback.onPokemonLoaded(mCachedPokemon);
     }
 
     @Override
