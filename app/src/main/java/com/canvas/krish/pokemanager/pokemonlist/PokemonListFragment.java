@@ -5,14 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.canvas.krish.pokemanager.R;
-import com.canvas.krish.pokemanager.data.Pokemon;
+import com.canvas.krish.pokemanager.data.models.Pokemon;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 
 import java.util.ArrayList;
@@ -66,7 +64,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     }
 
     private void setupRecyclerView(){
-        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<>());
+        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<Pokemon>());
         mPokemonRecyclerView.setAdapter(mPokemonListAdapter);
         mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }

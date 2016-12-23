@@ -1,10 +1,12 @@
 package com.canvas.krish.pokemanager.data;
 
+import com.canvas.krish.pokemanager.data.models.Pokemon;
+import com.canvas.krish.pokemanager.data.models.PokemonList;
+
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -12,7 +14,6 @@ import retrofit2.http.Query;
  */
 
 interface PokemonEndpointAPI {
-
-    @GET("/pokemon/")
-    Call<List<Pokemon>> loadPokemonList(@Query("limit") int loadLimit);
+    @GET("/api/v2/pokemon/")
+    Call<PokemonList> loadPokemonList(@Query("limit") int loadLimit);
 }

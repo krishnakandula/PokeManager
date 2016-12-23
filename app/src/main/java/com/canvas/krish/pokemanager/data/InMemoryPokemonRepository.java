@@ -1,6 +1,9 @@
 package com.canvas.krish.pokemanager.data;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.canvas.krish.pokemanager.data.models.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,15 @@ public class InMemoryPokemonRepository implements PokemonRepository {
         if(mCachedPokemon == null){
             mCachedPokemon = new ArrayList<>();
             for(int i = 0; i < 100; i++){
-                mCachedPokemon.add(new Pokemon(i));
+                mCachedPokemon.add(new Pokemon());
+                mCachedPokemon.get(i).setId(i);
             }
-            mPokemonServiceApi.getPokemonList(0, 10, pokemon -> mCachedPokemon = pokemon);
+            mPokemonServiceApi.getPokemonList(0, 10, new PokemonServiceApi.PokemonServiceCallback<List<Pokemon>>() {
+                @Override
+                public void onLoaded(List<Pokemon> pokemon) {
+                    mCachedPokemon = pokemon;
+                }
+            });
         }
         callback.onPokemonLoaded(mCachedPokemon);
     }

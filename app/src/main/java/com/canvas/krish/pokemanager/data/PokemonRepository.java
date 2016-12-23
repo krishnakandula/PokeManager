@@ -2,6 +2,8 @@ package com.canvas.krish.pokemanager.data;
 
 import android.support.annotation.NonNull;
 
+import com.canvas.krish.pokemanager.data.models.Pokemon;
+
 import java.util.List;
 
 /**

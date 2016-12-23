@@ -35,6 +35,5 @@ public class PokemonListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy() called");
     }
 }

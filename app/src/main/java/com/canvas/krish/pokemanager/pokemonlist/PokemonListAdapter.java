@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.canvas.krish.pokemanager.R;
-import com.canvas.krish.pokemanager.data.Pokemon;
+import com.canvas.krish.pokemanager.data.models.Pokemon;
 
 import java.util.List;
 
@@ -61,11 +61,10 @@ class PokemonListViewHolder extends RecyclerView.ViewHolder{
 
     public PokemonListViewHolder(View view){
         super(view);
-//        Unbinder unbinder = ButterKnife.bind(this, view);
         mIdTextView = (TextView) view.findViewById(R.id.pokemon_list_item_id_textview);
     }
 
     public void bind(@NonNull Pokemon pokemon){
-        mIdTextView.setText("" + pokemon.getId());
+        mIdTextView.setText(pokemon.getName());
     }
 }

@@ -1,5 +1,7 @@
 package com.canvas.krish.pokemanager.data;
 
+import com.canvas.krish.pokemanager.data.models.Pokemon;
+
 import java.util.List;
 
 /**
