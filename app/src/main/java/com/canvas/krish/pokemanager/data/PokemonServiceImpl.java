@@ -33,6 +33,7 @@ class PokemonServiceImpl implements PokemonServiceApi {
                     Throwable t = new Throwable("Could not retrieve data. Error code: " + response.code());
                     onFailure(call, t);
                 } else {
+                    Log.d(LOG_TAG, response.body().getPokemonList().toString());
                     callback.onLoaded(response.body().getPokemonList());
                 }
             }
