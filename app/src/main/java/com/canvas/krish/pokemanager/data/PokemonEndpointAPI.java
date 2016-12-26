@@ -14,6 +14,7 @@ import retrofit2.http.Query;
  */
 
 interface PokemonEndpointAPI {
+    //TODO: Change this endpoint. Pokemon list no longer needed
     @GET("/api/v2/pokemon/")
     Call<PokemonList> loadPokemonList(@Query("limit") int loadLimit, @Query("offset") int offset);
 }

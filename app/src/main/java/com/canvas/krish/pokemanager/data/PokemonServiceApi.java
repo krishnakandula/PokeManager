@@ -1,6 +1,10 @@
 package com.canvas.krish.pokemanager.data;
 
+import android.content.Context;
+
 import com.canvas.krish.pokemanager.data.models.Pokemon;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -14,7 +18,7 @@ interface PokemonServiceApi {
         void onLoaded(T pokemon);
     }
 
-    void getPokemonList(int minId, int maxId, PokemonServiceCallback<List<Pokemon>> callback);
+    void getPokemonList(int minId, int maxId, Context context, PokemonServiceCallback<JSONArray> callback);
 
     void getPokemon(int id, PokemonServiceCallback<Pokemon> callback);
 }

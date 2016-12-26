@@ -1,9 +1,14 @@
 package com.canvas.krish.pokemanager.data;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.data.models.Pokemon;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +18,7 @@ import java.util.List;
  */
 
 public class InMemoryPokemonRepository implements PokemonRepository {
+    private static final String LOG_TAG = InMemoryPokemonRepository.class.getSimpleName();
 
     List<Pokemon> mCachedPokemon;
     private PokemonServiceApi mPokemonServiceApi;
@@ -22,13 +28,30 @@ public class InMemoryPokemonRepository implements PokemonRepository {
     }
 
     @Override
-    public void getPokemonList(@NonNull final LoadPokemonCallback callback) {
+    public void getPokemonList(Context context, @NonNull final LoadPokemonCallback callback) {
         if(mCachedPokemon == null || mCachedPokemon.isEmpty()){
             mCachedPokemon = new ArrayList<>();
-            mPokemonServiceApi.getPokemonList(0, 810, new PokemonServiceApi.PokemonServiceCallback<List<Pokemon>>() {
+            mPokemonServiceApi.getPokemonList(0, 810, context, new PokemonServiceApi.PokemonServiceCallback<JSONArray>() {
                 @Override
-                public void onLoaded(List<Pokemon> pokemon) {
-                    mCachedPokemon = pokemon;
+                public void onLoaded(JSONArray pokemon) {
+                    try {
+                        //Iterate through JSONArray, creating pokemon objects and storing
+                        //them into cachedData
+                        for (int i = 0; i < pokemon.length(); i++) {
+                            Pokemon p = new Pokemon();
+                            JSONObject jsonObject = pokemon.getJSONObject(i);
+
+                            p.setId(jsonObject.getInt("_id"));
+                            p.setName(jsonObject.getString("_name"));
+                            p.setType1(jsonObject.getString("_type1"));
+                            if(jsonObject.has("_type2"))
+                                p.setType2(jsonObject.getString("_type2"));
+
+                            mCachedPokemon.add(p);
+                        }
+                    } catch (JSONException e){
+                        Log.e(LOG_TAG, e.getMessage());
+                    }
                     callback.onPokemonLoaded(mCachedPokemon);
                 }
             });

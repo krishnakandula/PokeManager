@@ -45,7 +45,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         super.onCreate(savedInstanceState);
         mTwoPaneUI = (boolean) getArguments().get(TWO_PANE_UI_KEY);
         mActionsListener = new PokemonListPresenter(PokemonRepositories.getInMemoryPokemonRepository(),
-                this);
+                this, getActivity().getApplicationContext());
     }
 
     @Nullable

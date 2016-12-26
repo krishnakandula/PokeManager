@@ -1,10 +1,16 @@
 package com.canvas.krish.pokemanager.data;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.data.models.Pokemon;
 import com.canvas.krish.pokemanager.data.models.PokemonList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -22,36 +28,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class PokemonServiceImpl implements PokemonServiceApi {
     private static final String LOG_TAG = PokemonServiceImpl.class.getSimpleName();
     private static final String BASE_URL = "http://pokeapi.co";
-
+    private static final String INTITAL_DATA_PATH = "initial_data.json";
     @Override
-    public void getPokemonList(int minId, int maxId, final PokemonServiceCallback<List<Pokemon>> callback) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).
-                addConverterFactory(GsonConverterFactory.create()).
-                build();
-        PokemonEndpointAPI api = retrofit.create(PokemonEndpointAPI.class);
-        Call<PokemonList> call = api.loadPokemonList(811, 0);
-        call.enqueue(new Callback<PokemonList>() {
-            @Override
-            public void onResponse(Call<PokemonList> call, Response<PokemonList> response) {
-                if(response.code() != 200){
-                    Throwable t = new Throwable("Could not retrieve data. Error code: " + response.code());
-                    onFailure(call, t);
-                } else {
-                    System.out.println(response.body().getNext());
-                    callback.onLoaded(response.body().getPokemonList());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PokemonList> call, Throwable t) {
-                Log.d(LOG_TAG, "ERROR: " + t.getMessage());
-            }
-        });
+    public void getPokemonList(int minId, int maxId, Context context, final PokemonServiceCallback<JSONArray> callback) {
+        try {
+            InputStream is = context.getAssets().open(INTITAL_DATA_PATH);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonData = new String(buffer, "UTF-8");
+            JSONArray initialDataArray = new JSONArray(jsonData);
+            callback.onLoaded(initialDataArray);
+        } catch (IOException e){
+            Log.e(LOG_TAG, e.getMessage());
+        } catch (JSONException e){
+            Log.e(LOG_TAG, e.getMessage());
+        }
     }
 
     @Override
     public void getPokemon(int id, PokemonServiceCallback<Pokemon> callback) {
         //TODO: Write PokemonServiceImpl.getPokemon()
     }
-
 }
