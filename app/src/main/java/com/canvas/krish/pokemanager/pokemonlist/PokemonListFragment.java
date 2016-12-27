@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.canvas.krish.pokemanager.R;
-import com.canvas.krish.pokemanager.data.models.Pokemon;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
+import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +64,13 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     }
 
     private void setupRecyclerView(){
-        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<Pokemon>());
+        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getContext());
         mPokemonRecyclerView.setAdapter(mPokemonListAdapter);
         mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void showPokemonList(List<Pokemon> pokemonList) {
+    public void showPokemonList(List<PokemonListItem> pokemonList) {
         mPokemonListAdapter.replaceData(pokemonList);
     }
 

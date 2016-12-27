@@ -7,12 +7,13 @@ package com.canvas.krish.pokemanager.data.models;
 /**
  * Immutable model class for a Pokemon
  */
-public final class Pokemon {
+public final class PokemonListItem {
     private String name;
-    private String url;
+    private String sprite_front_default_uri;
     private int id;
     private String type1;
     private String type2;
+    private PokemonDetail mPokemonDetail;
 
     public String getName() {
         return name;
@@ -22,12 +23,12 @@ public final class Pokemon {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getSprite_front_default_uri() {
+        return sprite_front_default_uri;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setSprite_front_default_uri(String sprite_front_default_uri) {
+        this.sprite_front_default_uri = sprite_front_default_uri;
     }
 
     public int getId() {
@@ -52,6 +53,14 @@ public final class Pokemon {
 
     public void setType2(String type2) {
         this.type2 = type2;
+    }
+
+    public PokemonDetail getPokemonDetail() {
+        return mPokemonDetail;
+    }
+
+    public void setPokemonDetail(PokemonDetail pokemonDetail) {
+        mPokemonDetail = pokemonDetail;
     }
 
     @Override

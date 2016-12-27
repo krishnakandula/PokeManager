@@ -3,8 +3,9 @@ package com.canvas.krish.pokemanager.pokemonlist;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.canvas.krish.pokemanager.data.models.Pokemon;
 import com.canvas.krish.pokemanager.data.PokemonRepository;
+import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 import java.util.List;
 
@@ -29,14 +30,14 @@ public class PokemonListPresenter implements PokemonListContract.UserActionsList
     public void loadPokemon() {
         mPokemonRepository.getPokemonList(mContext, new PokemonRepository.LoadPokemonCallback() {
             @Override
-            public void onPokemonLoaded(List<Pokemon> pokemonList) {
+            public void onPokemonLoaded(List<PokemonListItem> pokemonList) {
                 mPokemonListView.showPokemonList(pokemonList);
             }
         });
     }
 
     @Override
-    public void openPokemonDetails(@NonNull Pokemon requestedPokemon) {
+    public void openPokemonDetails(@NonNull PokemonDetail requestedPokemon) {
 
     }
 }

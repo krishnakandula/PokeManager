@@ -3,23 +3,14 @@ package com.canvas.krish.pokemanager.data;
 import android.content.Context;
 import android.util.Log;
 
-import com.canvas.krish.pokemanager.data.models.Pokemon;
-import com.canvas.krish.pokemanager.data.models.PokemonList;
+import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Krishna Chaitanya Kandula on 12/22/2016.
@@ -29,6 +20,7 @@ class PokemonServiceImpl implements PokemonServiceApi {
     private static final String LOG_TAG = PokemonServiceImpl.class.getSimpleName();
     private static final String BASE_URL = "http://pokeapi.co";
     private static final String INTITAL_DATA_PATH = "initial_data.json";
+
     @Override
     public void getPokemonList(int minId, int maxId, Context context, final PokemonServiceCallback<JSONArray> callback) {
         try {
@@ -48,7 +40,7 @@ class PokemonServiceImpl implements PokemonServiceApi {
     }
 
     @Override
-    public void getPokemon(int id, PokemonServiceCallback<Pokemon> callback) {
+    public void getPokemon(int id, PokemonServiceCallback<JSONObject> callback) {
         //TODO: Write PokemonServiceImpl.getPokemon()
     }
 }

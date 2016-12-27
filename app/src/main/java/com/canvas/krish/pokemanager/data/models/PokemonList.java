@@ -13,8 +13,7 @@ public class PokemonList {
     private int count;
     private String previous;
 
-    @SerializedName("results")
-    private List<Pokemon> pokemonList;
+    private List<PokemonListItem> pokemonList;
     private String next;
 
     public PokemonList(){
@@ -37,11 +36,11 @@ public class PokemonList {
         this.previous = previous;
     }
 
-    public List<Pokemon> getPokemonList() {
+    public List<PokemonListItem> getPokemonList() {
         return pokemonList;
     }
 
-    public void setPokemonList(List<Pokemon> pokemonList) {
+    public void setPokemonList(List<PokemonListItem> pokemonList) {
         this.pokemonList = pokemonList;
     }
 

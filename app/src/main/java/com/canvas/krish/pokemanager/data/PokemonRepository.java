@@ -3,7 +3,8 @@ package com.canvas.krish.pokemanager.data;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.canvas.krish.pokemanager.data.models.Pokemon;
+import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 import java.util.List;
 
@@ -17,21 +18,19 @@ public interface PokemonRepository {
      * Callback for retrieving all Pokemon in a repository
      */
     interface LoadPokemonCallback {
-        void onPokemonLoaded(List<Pokemon> pokemonList);
+        void onPokemonLoaded(List<PokemonListItem> pokemonList);
     }
 
     /**
      * Callback for retrieving a single Pokemon in a repository
      */
     interface GetPokemonCallback {
-        void onPokemonLoaded(Pokemon pokemon);
+        void onPokemonLoaded(PokemonDetail pokemon);
     }
 
     void getPokemonList(Context context, @NonNull LoadPokemonCallback callback);
 
     void getPokemon(@NonNull int pokemonId, @NonNull GetPokemonCallback callback);
-
-    void savePokemon(@NonNull Pokemon pokemon);
 
     void refreshData();
 }

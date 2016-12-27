@@ -4,7 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.canvas.krish.pokemanager.data.models.Pokemon;
+import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,7 @@ import java.util.List;
 public class InMemoryPokemonRepository implements PokemonRepository {
     private static final String LOG_TAG = InMemoryPokemonRepository.class.getSimpleName();
 
-    List<Pokemon> mCachedPokemon;
+    List<PokemonListItem> mCachedPokemon;
     private PokemonServiceApi mPokemonServiceApi;
 
     protected InMemoryPokemonRepository(PokemonServiceApi pokemonServiceApi){
@@ -38,7 +39,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
                         //Iterate through JSONArray, creating pokemon objects and storing
                         //them into cachedData
                         for (int i = 0; i < pokemon.length(); i++) {
-                            Pokemon p = new Pokemon();
+                            PokemonListItem p = new PokemonListItem();
                             JSONObject jsonObject = pokemon.getJSONObject(i);
 
                             p.setId(jsonObject.getInt("_id"));
@@ -47,6 +48,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
                             if(jsonObject.has("_type2"))
                                 p.setType2(jsonObject.getString("_type2"));
 
+                            p.setSprite_front_default_uri(jsonObject.getString("_front_default_sprite_uri"));
                             mCachedPokemon.add(p);
                         }
                     } catch (JSONException e){
@@ -62,14 +64,10 @@ public class InMemoryPokemonRepository implements PokemonRepository {
 
     @Override
     public void getPokemon(@NonNull int pokemonId, @NonNull GetPokemonCallback callback) {
-        if(mCachedPokemon != null){
-            callback.onPokemonLoaded(mCachedPokemon.get(0));
-        }
-    }
-
-    @Override
-    public void savePokemon(@NonNull Pokemon pokemon) {
-
+        //TODO: Write InMemoryPokemonRepository.getPokemon()
+        //Check if mCachedPokemon.get(pokemonId) is null
+        //If not, callback.onPokemonLoaded(mCachedPokemon.get(pokemonId).getPokemonDetail())
+        //If null, pokemonServiceApi.get(pokemonId, new PokemonServiceCallback...), then parse JsonObject
     }
 
     @Override

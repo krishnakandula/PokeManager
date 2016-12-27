@@ -1,9 +1,6 @@
 package com.canvas.krish.pokemanager.data;
 
-import com.canvas.krish.pokemanager.data.models.Pokemon;
 import com.canvas.krish.pokemanager.data.models.PokemonList;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

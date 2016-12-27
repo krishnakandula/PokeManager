@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight">
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:layout_margin="6dp">
 
-    <TextView
-        android:text="TextView"
-        android:id="@+id/pokemon_list_item_id_textview"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="TextView"
+            android:id="@+id/pokemon_list_item_id_textview"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            app:layout_constraintTop_toBottomOf="@+id/pokemon_list_item_name_type_textview"
+            app:layout_constraintRight_toLeftOf="@+id/pokemon_list_item_sprite_imageview"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/pokemon_list_item_name_type_textview"
+            android:minHeight="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/pokemon_list_item_sprite_imageview"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="81dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/pokemon_list_item_sprite_imageview"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>
