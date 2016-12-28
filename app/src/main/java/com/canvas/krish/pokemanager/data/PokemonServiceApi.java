@@ -1,8 +1,11 @@
 package com.canvas.krish.pokemanager.data;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,4 +23,6 @@ interface PokemonServiceApi {
     void getPokemonList(int minId, int maxId, Context context, PokemonServiceCallback<JSONArray> callback);
 
     void getPokemon(int id, PokemonServiceCallback<JSONObject> callback);
+
+    void getPokemonArtwork(int id, OnSuccessListener<Uri> callback, OnFailureListener failure);
 }

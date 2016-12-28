@@ -1,6 +1,7 @@
 package com.canvas.krish.pokemanager.data;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
@@ -28,9 +29,15 @@ public interface PokemonRepository {
         void onPokemonLoaded(PokemonDetail pokemon);
     }
 
+    interface GetArtworkUriCallback {
+        void onArtworkUriLoaded(Uri uri);
+    }
+
     void getPokemonList(Context context, @NonNull LoadPokemonCallback callback);
 
     void getPokemon(@NonNull int pokemonId, @NonNull GetPokemonCallback callback);
+
+    void getArtworkUri(@NonNull int pokemonId, @NonNull GetArtworkUriCallback callback);
 
     void refreshData();
 }

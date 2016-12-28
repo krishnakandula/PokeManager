@@ -1,11 +1,14 @@
 package com.canvas.krish.pokemanager.data;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,6 +71,21 @@ public class InMemoryPokemonRepository implements PokemonRepository {
         //Check if mCachedPokemon.get(pokemonId) is null
         //If not, callback.onPokemonLoaded(mCachedPokemon.get(pokemonId).getPokemonDetail())
         //If null, pokemonServiceApi.get(pokemonId, new PokemonServiceCallback...), then parse JsonObject
+    }
+
+    @Override
+    public void getArtworkUri(@NonNull int pokemonId, @NonNull final GetArtworkUriCallback callback) {
+        mPokemonServiceApi.getPokemonArtwork(pokemonId, new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                callback.onArtworkUriLoaded(uri);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(LOG_TAG, e.getMessage());
+            }
+        });
     }
 
     @Override

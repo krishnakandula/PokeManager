@@ -1,9 +1,14 @@
 package com.canvas.krish.pokemanager.data;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,5 +47,15 @@ class PokemonServiceImpl implements PokemonServiceApi {
     @Override
     public void getPokemon(int id, PokemonServiceCallback<JSONObject> callback) {
         //TODO: Write PokemonServiceImpl.getPokemon()
+    }
+
+    @Override
+    public void getPokemonArtwork(int id, OnSuccessListener<Uri> callback, OnFailureListener failure) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference reference = storage.getReference();
+        StorageReference imageReference = reference.child(String.format("images/artwork/%d.jpg", id).toString());
+        imageReference.getDownloadUrl()
+                .addOnSuccessListener(callback)
+                .addOnFailureListener(failure);
     }
 }
