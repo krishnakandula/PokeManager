@@ -92,4 +92,17 @@ public class InMemoryPokemonRepository implements PokemonRepository {
     public void refreshData() {
 
     }
+
+    @NonNull
+    public String capitalizeFirstLetter(String str){
+        if(!str.isEmpty()) {
+            StringBuilder builder = new StringBuilder(str.substring(0, 1).toUpperCase());
+            if (str.length() >= 1)
+                builder.append(str.substring(1));
+
+            return builder.toString();
+        }
+
+        return str;
+    }
 }
