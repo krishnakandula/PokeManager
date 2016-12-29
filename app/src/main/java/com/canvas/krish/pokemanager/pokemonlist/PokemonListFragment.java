@@ -79,8 +79,10 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         //TODO: Write PokemonListFragment.showPokemonDetail()
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    private PokemonListAdapter.PokemonListItemListener mListItemListener = new PokemonListAdapter.PokemonListItemListener() {
+        @Override
+        public void onPokemonClick(PokemonListItem pokemonListItem) {
+            mActionsListener.openPokemonDetails(pokemonListItem.getPokemonDetail());
+        }
+    };
 }

@@ -91,17 +91,22 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             mNameTypeTextView.setText(nameType.toString());
 
             Log.v(LOG_TAG, "Grabbing artwork.");
-            PokemonRepositories.getInMemoryPokemonRepository().getArtworkUri(pokemon.getId(), new PokemonRepository.GetArtworkUriCallback() {
-                @Override
-                public void onArtworkUriLoaded(Uri uri) {
-                    updateArtwork(uri);
-                }
-            });
+            PokemonRepositories.getInMemoryPokemonRepository()
+                    .getArtworkUri(pokemon.getId(), new PokemonRepository.GetArtworkUriCallback() {
+                        @Override
+                        public void onArtworkUriLoaded(Uri uri) {
+                            updateArtwork(uri);
+                        }
+                    });
         }
 
         public void updateArtwork(Uri artworkUri) {
             Picasso.with(mContext).load(artworkUri.toString())
                     .fit().centerCrop().noPlaceholder().into(mArtworkImageView);
         }
+    }
+
+    interface PokemonListItemListener {
+        void onPokemonClick(PokemonListItem pokemonListItem);
     }
 }
