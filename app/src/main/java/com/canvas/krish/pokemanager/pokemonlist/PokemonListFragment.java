@@ -14,9 +14,18 @@ import android.view.ViewGroup;
 import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
+import com.cleveroad.fanlayoutmanager.FanLayoutManager;
+import com.cleveroad.fanlayoutmanager.FanLayoutManagerSettings;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 
 /**
@@ -67,9 +76,27 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
 
     private void setupRecyclerView(){
         mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getContext());
+
+        //Set animation adapter for scale in and alpha in
+//        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(mPokemonListAdapter);
+//        animationAdapter.setDuration(100);
+//        mPokemonRecyclerView.setAdapter(new AlphaInAnimationAdapter(animationAdapter));
         mPokemonRecyclerView.setAdapter(mPokemonListAdapter);
-        mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+//        mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        FanLayoutManagerSettings fanLayoutManagerSettings = FanLayoutManagerSettings
+                .newBuilder(getContext())
+                .withFanRadius(true)
+                .withAngleItemBounce(5)
+                .withViewHeightDp(400)
+                .withViewWidthDp(300)
+                .build();
+        mPokemonRecyclerView.setLayoutManager(new FanLayoutManager(getContext(), fanLayoutManagerSettings));
+
         mPokemonRecyclerView.setHasFixedSize(true);
+        mPokemonRecyclerView.setDrawingCacheEnabled(true);
+        mPokemonRecyclerView.setItemViewCacheSize(20);
+        mPokemonRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
     }
 
     @Override

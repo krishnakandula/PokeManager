@@ -6,6 +6,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:id="@+id/pokemon_list_container">
 
         <include layout="@layout/pokemon_item_list"/>
