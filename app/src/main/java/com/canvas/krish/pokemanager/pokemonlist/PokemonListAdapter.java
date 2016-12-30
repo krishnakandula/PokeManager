@@ -113,7 +113,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         }
 
         public void updateArtwork(final Uri artworkUri) {
-            final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
+            final String defaultBackgroundColor = "#000000";  //Black: default CardView background color
 
             Picasso.with(mContext).cancelRequest(mArtworkImageView);
             Picasso.with(mContext).load(artworkUri.toString())
@@ -126,8 +126,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                         @Override
                         public void onGenerated(Palette palette) {
                             mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
-//                            GradientDrawable textViewDrawable = (GradientDrawable) mNameTypeTextView.getBackground();
-//                            textViewDrawable.setStroke(4, palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
                         }
                     });
                 }
