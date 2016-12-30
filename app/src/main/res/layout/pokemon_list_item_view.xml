@@ -58,7 +58,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintVertical_bias="0.32999998"
             android:background="@drawable/pokemon_id_circle"
-            android:layout_width="75dp"/>
+            android:layout_width="75dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
 
     </android.support.constraint.ConstraintLayout>
 

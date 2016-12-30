@@ -77,6 +77,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     private void setupRecyclerView(){
         mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getContext());
 
+        //TODO: Remove AnimationAdapter and dependency
         //Set animation adapter for scale in and alpha in
 //        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(mPokemonListAdapter);
 //        animationAdapter.setDuration(100);
@@ -84,6 +85,8 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         mPokemonRecyclerView.setAdapter(mPokemonListAdapter);
 
 //        mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //TODO: Fix FanLayoutManager bug
         FanLayoutManagerSettings fanLayoutManagerSettings = FanLayoutManagerSettings
                 .newBuilder(getContext())
                 .withFanRadius(true)
@@ -91,11 +94,10 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
                 .withViewHeightDp(400)
                 .withViewWidthDp(300)
                 .build();
-        mPokemonRecyclerView.setLayoutManager(new FanLayoutManager(getContext(), fanLayoutManagerSettings));
 
+        mPokemonRecyclerView.setLayoutManager(new FanLayoutManager(getContext(), fanLayoutManagerSettings));
         mPokemonRecyclerView.setHasFixedSize(true);
         mPokemonRecyclerView.setDrawingCacheEnabled(true);
-        mPokemonRecyclerView.setItemViewCacheSize(20);
         mPokemonRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
     }
 

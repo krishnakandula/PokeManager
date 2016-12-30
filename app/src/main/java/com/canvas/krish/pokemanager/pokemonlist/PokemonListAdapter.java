@@ -41,7 +41,7 @@ import static com.google.common.base.Preconditions.*;
  */
 
 public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.ListViewHolder> {
-
+    private static final String LOG_TAG = PokemonListAdapter.class.getSimpleName();
     private List<PokemonListItem> mPokemonList;
     private Context mContext;
 
@@ -64,6 +64,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
+        Log.d(LOG_TAG, "" + position);
         PokemonListItem pokemon = mPokemonList.get(position);
         holder.bind(pokemon);
     }
@@ -114,6 +115,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         public void updateArtwork(final Uri artworkUri) {
             final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
 
+            Picasso.with(mContext).cancelRequest(mArtworkImageView);
             Picasso.with(mContext).load(artworkUri.toString())
                     .fit().centerCrop().noPlaceholder().into(mArtworkImageView, new Callback() {
                 @Override
