@@ -64,7 +64,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
-        Log.d(LOG_TAG, "" + position);
         PokemonListItem pokemon = mPokemonList.get(position);
         holder.bind(pokemon);
     }
@@ -86,6 +85,9 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         TextView mNameTypeTextView;
         CircleImageView mArtworkImageView;
         CardView mCardView;
+        TextView mDescriptionTextView;
+
+        final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
 
         public ListViewHolder(View view) {
             super(view);
@@ -93,6 +95,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             mNameTypeTextView = (TextView) view.findViewById(R.id.pokemon_list_item_name_type_textview);
             mArtworkImageView = (CircleImageView) view.findViewById(R.id.pokemon_list_item_artwork_imageview);
             mCardView = (CardView) view.findViewById(R.id.pokemon_list_item_cardview);
+            mDescriptionTextView = (TextView) view.findViewById(R.id.pokemon_list_item_description_textview);
         }
 
         public void bind(@NonNull PokemonListItem pokemon) {
@@ -101,7 +104,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             if (pokemon.getType2() != null)
                 nameType.append(String.format("/%s", pokemon.getType2()));
             mNameTypeTextView.setText(nameType.toString());
-
+            mDescriptionTextView.setText(pokemon.getDescription());
             Log.v(LOG_TAG, "Grabbing artwork.");
             PokemonRepositories.getInMemoryPokemonRepository()
                     .getArtworkUri(pokemon.getId(), new PokemonRepository.GetArtworkUriCallback() {
@@ -113,8 +116,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         }
 
         public void updateArtwork(final Uri artworkUri) {
-            final String defaultBackgroundColor = "#000000";  //Black: default CardView background color
-
             Picasso.with(mContext).cancelRequest(mArtworkImageView);
             Picasso.with(mContext).load(artworkUri.toString())
                     .fit().centerCrop().noPlaceholder().into(mArtworkImageView, new Callback() {

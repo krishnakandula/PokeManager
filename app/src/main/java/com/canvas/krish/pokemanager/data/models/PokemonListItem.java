@@ -13,6 +13,7 @@ public final class PokemonListItem {
     private int id;
     private String type1;
     private String type2;
+    private String description;
     private PokemonDetail mPokemonDetail;
 
     public String getName() {
@@ -61,6 +62,14 @@ public final class PokemonListItem {
 
     public void setPokemonDetail(PokemonDetail pokemonDetail) {
         mPokemonDetail = pokemonDetail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

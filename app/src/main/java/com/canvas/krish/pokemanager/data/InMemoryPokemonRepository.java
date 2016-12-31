@@ -52,6 +52,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
                                 p.setType2(capitalizeFirstLetter(jsonObject.getString("_type2")));
 
                             p.setSprite_front_default_uri(jsonObject.getString("_front_default_sprite_uri"));
+                            p.setDescription(jsonObject.getString("_description"));
                             mCachedPokemon.add(p);
                         }
                     } catch (JSONException e){

@@ -79,6 +79,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         mPokemonRecyclerView.setAdapter(new AlphaInAnimationAdapter(animationAdapter));
         mPokemonRecyclerView.setHasFixedSize(true);
         mPokemonRecyclerView.setDrawingCacheEnabled(true);
+        mPokemonRecyclerView.setItemViewCacheSize(30);
         mPokemonRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
         mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     }
