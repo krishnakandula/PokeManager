@@ -1,17 +1,16 @@
 package com.canvas.krish.pokemanager.pokemonlist;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.canvas.krish.pokemanager.BaseNavActivity;
 import com.canvas.krish.pokemanager.R;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +30,7 @@ public class PokemonListActivity extends BaseNavActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.nav_drawer_item_pokedex);
 
-        setupNavDrawer(this);
+        setupNavDrawer(mDrawerItemClickListener);
 
         boolean mTwoPane = (findViewById(R.id.pokemon_detail_container) != null);
         initFragment(PokemonListFragment.newInstance(mTwoPane));
@@ -46,6 +45,18 @@ public class PokemonListActivity extends BaseNavActivity {
                     commit();
         }
     }
+
+    private Drawer.OnDrawerItemClickListener mDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
+        @Override
+        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+            switch (position) {
+                case TEAMS_DRAWER_ITEM_IDENTIFIER:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    };
 
     @Override
     protected void onDestroy() {

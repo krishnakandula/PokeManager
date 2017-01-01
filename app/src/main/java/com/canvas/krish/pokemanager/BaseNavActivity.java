@@ -20,17 +20,22 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
  * Created by Krishna Chaitanya Kandula on 12/31/2016.
  */
 
-public class BaseNavActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener{
+public class BaseNavActivity extends AppCompatActivity {
 
-    private final int POKEDEX_DRAWER_ITEM_IDENTIFIER = 0;
-    private final int TEAMS_DRAWER_ITEM_IDENTIFIER = 1;
+    protected static final int POKEDEX_DRAWER_ITEM_IDENTIFIER = 0;
+    protected static final int TEAMS_DRAWER_ITEM_IDENTIFIER = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    protected void setupNavDrawer(Activity activity){
+    /**
+     * Setup method for drawer layout that is common for every class. A OnDrawerItemClickListener
+     * must be passed so each activity can determine how clicks behave
+     * @param drawerItemClickListener Sets the click listener for drawer items
+     */
+    protected void setupNavDrawer(Drawer.OnDrawerItemClickListener drawerItemClickListener) {
         PrimaryDrawerItem pokedexDrawerItem = new PrimaryDrawerItem()
                 .withName(R.string.nav_drawer_item_pokedex)
                 .withIdentifier(POKEDEX_DRAWER_ITEM_IDENTIFIER);
@@ -39,36 +44,24 @@ public class BaseNavActivity extends AppCompatActivity implements Drawer.OnDrawe
                 .withName(R.string.nav_drawer_item_teams)
                 .withIdentifier(TEAMS_DRAWER_ITEM_IDENTIFIER);
 
-        ProfileDrawerItem mainProfileItem = new ProfileDrawerItem().withName("Krishna C Kandula").withEmail("krishna.c.kandula@gmail.com");
+        ProfileDrawerItem mainProfileItem = new ProfileDrawerItem()
+                .withName("Krishna C Kandula")
+                .withEmail("krishna.c.kandula@gmail.com");
 
         AccountHeader header = new AccountHeaderBuilder()
-                .withActivity(activity)
+                .withActivity(this)
                 .addProfiles(mainProfileItem)
                 .build();
 
         Drawer drawer = new DrawerBuilder()
-                .withActivity(activity)
+                .withActivity(this)
                 .withTranslucentNavigationBar(false)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
                         pokedexDrawerItem,
                         teamsDrawerItem
                 )
-                .withOnDrawerItemClickListener(this)
+                .withOnDrawerItemClickListener(drawerItemClickListener)
                 .build();
-    }
-
-    @Override
-    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-        switch (position) {
-            case POKEDEX_DRAWER_ITEM_IDENTIFIER:
-                Intent intent = new Intent(this, PokemonListActivity.class);
-                startActivityIfNeeded(intent, Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                return true;
-            case TEAMS_DRAWER_ITEM_IDENTIFIER:
-                return true;
-            default:
-                return false;
-        }
     }
 }
