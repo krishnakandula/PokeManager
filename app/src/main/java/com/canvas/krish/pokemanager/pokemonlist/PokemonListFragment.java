@@ -69,17 +69,19 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     }
 
     private void setupRecyclerView(){
-        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getContext());
+        int animationTime = 300;
+        int itemViewCacheSize = 30;
+
+        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getContext(), mListItemListener);
 
 //        Set animation adapter for scale in and alpha in
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(mPokemonListAdapter);
-        int animationTime = 300;
         animationAdapter.setDuration(animationTime);
 
         mPokemonRecyclerView.setAdapter(new AlphaInAnimationAdapter(animationAdapter));
         mPokemonRecyclerView.setHasFixedSize(true);
         mPokemonRecyclerView.setDrawingCacheEnabled(true);
-        mPokemonRecyclerView.setItemViewCacheSize(30);
+        mPokemonRecyclerView.setItemViewCacheSize(itemViewCacheSize);
         mPokemonRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
         mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     }
@@ -94,10 +96,10 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         //TODO: Write PokemonListFragment.showPokemonDetail()
     }
 
-    private PokemonListAdapter.PokemonListItemListener mListItemListener = new PokemonListAdapter.PokemonListItemListener() {
+    private PokemonListAdapter.PokemonListItemClickListener mListItemListener = new PokemonListAdapter.PokemonListItemClickListener() {
         @Override
         public void onPokemonClick(PokemonListItem pokemonListItem) {
-            mActionsListener.openPokemonDetails(pokemonListItem.getPokemonDetail());
+            mActionsListener.openPokemonDetails(pokemonListItem);
         }
     };
 }

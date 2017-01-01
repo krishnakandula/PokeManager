@@ -24,6 +24,6 @@ public interface PokemonListContract {
 
         void loadPokemon();
 
-        void openPokemonDetails(@NonNull PokemonDetail requestedPokemon);
+        void openPokemonDetails(@NonNull PokemonListItem pokemonListItem);
     }
 }

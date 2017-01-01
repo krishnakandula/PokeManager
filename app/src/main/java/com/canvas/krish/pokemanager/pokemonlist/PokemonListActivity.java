@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.R;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
 public class PokemonListActivity extends AppCompatActivity {
     private static final String LOG_TAG = PokemonListActivity.class.getSimpleName();
@@ -16,7 +17,7 @@ public class PokemonListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_list);
-
+        
         boolean mTwoPane = (findViewById(R.id.pokemon_detail_container) != null);
 
         initFragment(PokemonListFragment.newInstance(mTwoPane));

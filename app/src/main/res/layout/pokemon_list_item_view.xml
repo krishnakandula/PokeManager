@@ -20,15 +20,15 @@
             android:id="@+id/pokemon_list_item_id_textview"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/default_left_margin"
             android:gravity="center_vertical|center_horizontal"
-            android:minHeight="50dp"
-            android:text="TextView"
+            android:minHeight="@dimen/pokemon_id_min_height"
             android:textAppearance="@android:style/TextAppearance.Material.Small"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/pokemon_list_item_description_textview"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="#X"/>
 
         <TextView
             android:id="@+id/pokemon_list_item_name_type_textview"
@@ -57,19 +57,19 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/pokemon_name_textview"
+            android:fontFamily="monospace"
             android:gravity="center_horizontal"
             android:padding="4dp"
             android:text="TextView"
             android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="normal|italic"
+            android:typeface="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_list_item_artwork_imageview"
-            android:typeface="normal"
-            android:textSize="12sp"
-            android:textStyle="normal|italic"
-            android:fontFamily="monospace"/>
+            app:layout_constraintTop_toBottomOf="@+id/pokemon_list_item_artwork_imageview"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pokemon_list_item_artwork_imageview"

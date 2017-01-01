@@ -41,13 +41,16 @@ import static com.google.common.base.Preconditions.*;
  */
 
 public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.ListViewHolder> {
+
     private static final String LOG_TAG = PokemonListAdapter.class.getSimpleName();
     private List<PokemonListItem> mPokemonList;
     private Context mContext;
+    private PokemonListItemClickListener mListItemClickListener;
 
-    public PokemonListAdapter(List<PokemonListItem> pokemonList, Context context) {
+    public PokemonListAdapter(List<PokemonListItem> pokemonList, Context context, PokemonListItemClickListener itemClickListener) {
         setList(pokemonList);
         this.mContext = context;
+        this.mListItemClickListener = itemClickListener;
     }
 
     private void setList(List<PokemonListItem> pokemonList) {
@@ -65,7 +68,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
         PokemonListItem pokemon = mPokemonList.get(position);
-        holder.bind(pokemon);
+        holder.bind(position);
     }
 
     @Override
@@ -78,14 +81,14 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         notifyDataSetChanged();
     }
 
-    class ListViewHolder extends RecyclerView.ViewHolder {
-
+    class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final String LOG_TAG = ListViewHolder.class.getSimpleName();
         TextView mIdTextView;
         TextView mNameTypeTextView;
         CircleImageView mArtworkImageView;
         CardView mCardView;
         TextView mDescriptionTextView;
+        int position;
 
         final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
 
@@ -96,16 +99,19 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             mArtworkImageView = (CircleImageView) view.findViewById(R.id.pokemon_list_item_artwork_imageview);
             mCardView = (CardView) view.findViewById(R.id.pokemon_list_item_cardview);
             mDescriptionTextView = (TextView) view.findViewById(R.id.pokemon_list_item_description_textview);
+            view.setOnClickListener(this);
         }
 
-        public void bind(@NonNull PokemonListItem pokemon) {
+        public void bind(@NonNull int position) {
+            this.position = position;
+            PokemonListItem pokemon = mPokemonList.get(position);
             mIdTextView.setText("#" + pokemon.getId());
             StringBuilder nameType = new StringBuilder(String.format("%s \n%s", pokemon.getName(), pokemon.getType1()));
             if (pokemon.getType2() != null)
                 nameType.append(String.format("/%s", pokemon.getType2()));
             mNameTypeTextView.setText(nameType.toString());
             mDescriptionTextView.setText(pokemon.getDescription());
-            Log.v(LOG_TAG, "Grabbing artwork.");
+
             PokemonRepositories.getInMemoryPokemonRepository()
                     .getArtworkUri(pokemon.getId(), new PokemonRepository.GetArtworkUriCallback() {
                         @Override
@@ -117,32 +123,38 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
         public void updateArtwork(final Uri artworkUri) {
             Picasso.with(mContext).cancelRequest(mArtworkImageView);
-            Picasso.with(mContext).load(artworkUri.toString())
-                    .fit().centerCrop().noPlaceholder().into(mArtworkImageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    //Update drawable color asynchronously
-                    Bitmap imageBitmap = ((BitmapDrawable)mArtworkImageView.getDrawable()).getBitmap();
-                    Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
+            Picasso.with(mContext)
+                    .load(artworkUri.toString())
+                    .fit().centerCrop()
+                    .noPlaceholder()
+                    .into(mArtworkImageView, new Callback() {
                         @Override
-                        public void onGenerated(Palette palette) {
-                            mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                        public void onSuccess() {
+                            //Update drawable color asynchronously
+                            Bitmap imageBitmap = ((BitmapDrawable) mArtworkImageView.getDrawable()).getBitmap();
+                            Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError() {
+                            String errorMessage = String.format("ERROR: Could not load image with URI %s", artworkUri);
+                            Log.e(LOG_TAG, errorMessage);
                         }
                     });
-                }
+        }
 
-                @Override
-                public void onError() {
-                    String errorMessage = String.format("ERROR: Could not load image with URI %s", artworkUri);
-                    Log.e(LOG_TAG, errorMessage);
-                }
-            });
-
-
+        @Override
+        public void onClick(View v) {
+            mListItemClickListener.onPokemonClick(mPokemonList.get(position));
         }
     }
 
-    interface PokemonListItemListener {
+    interface PokemonListItemClickListener {
         void onPokemonClick(PokemonListItem pokemonListItem);
     }
 }

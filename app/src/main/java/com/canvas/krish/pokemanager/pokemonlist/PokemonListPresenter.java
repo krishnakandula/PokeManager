@@ -20,6 +20,7 @@ public class PokemonListPresenter implements PokemonListContract.UserActionsList
     private final PokemonRepository mPokemonRepository;
     private final PokemonListContract.View mPokemonListView;
     private Context mContext;
+
     public PokemonListPresenter(@NonNull PokemonRepository repository, @NonNull PokemonListContract.View view, Context context){
         mPokemonRepository = checkNotNull(repository, "PokemonRepository can't be null.");
         mPokemonListView = checkNotNull(view, "PokemonListContract.View can't be null.");
@@ -37,7 +38,7 @@ public class PokemonListPresenter implements PokemonListContract.UserActionsList
     }
 
     @Override
-    public void openPokemonDetails(@NonNull PokemonDetail requestedPokemon) {
+    public void openPokemonDetails(@NonNull PokemonListItem pokemonListItem) {
 
     }
 }
