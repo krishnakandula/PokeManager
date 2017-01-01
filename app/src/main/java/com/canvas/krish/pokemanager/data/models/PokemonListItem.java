@@ -14,7 +14,6 @@ public final class PokemonListItem {
     private String type1;
     private String type2;
     private String description;
-    private PokemonDetail mPokemonDetail;
 
     public String getName() {
         return name;
@@ -54,14 +53,6 @@ public final class PokemonListItem {
 
     public void setType2(String type2) {
         this.type2 = type2;
-    }
-
-    public PokemonDetail getPokemonDetail() {
-        return mPokemonDetail;
-    }
-
-    public void setPokemonDetail(PokemonDetail pokemonDetail) {
-        mPokemonDetail = pokemonDetail;
     }
 
     public String getDescription() {

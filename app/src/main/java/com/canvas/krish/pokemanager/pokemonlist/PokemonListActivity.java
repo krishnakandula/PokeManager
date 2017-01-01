@@ -14,10 +14,12 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class PokemonListActivity extends BaseNavActivity {
     private static final String LOG_TAG = PokemonListActivity.class.getSimpleName();
     private final String LIST_FRAGMENT_TAG = "POKEMON_LIST_FRAGMENT_TAG";
+    private Unbinder mUnbinder;
 
     @BindView(R.id.activity_pokemon_list_toolbar) Toolbar mToolbar;
 
@@ -25,7 +27,7 @@ public class PokemonListActivity extends BaseNavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_list);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.nav_drawer_item_pokedex);
@@ -61,5 +63,6 @@ public class PokemonListActivity extends BaseNavActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mUnbinder.unbind();
     }
 }

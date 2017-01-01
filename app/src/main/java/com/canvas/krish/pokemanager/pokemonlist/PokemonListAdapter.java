@@ -32,6 +32,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.google.common.base.Preconditions.*;
@@ -83,22 +85,18 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final String LOG_TAG = ListViewHolder.class.getSimpleName();
-        TextView mIdTextView;
-        TextView mNameTypeTextView;
-        CircleImageView mArtworkImageView;
-        CardView mCardView;
-        TextView mDescriptionTextView;
+        @BindView(R.id.pokemon_list_item_id_textview) TextView mIdTextView;
+        @BindView(R.id.pokemon_list_item_name_type_textview) TextView mNameTypeTextView;
+        @BindView(R.id.pokemon_list_item_artwork_imageview) CircleImageView mArtworkImageView;
+        @BindView(R.id.pokemon_list_item_cardview) CardView mCardView;
+        @BindView(R.id.pokemon_list_item_description_textview) TextView mDescriptionTextView;
         int position;
 
         final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
 
         public ListViewHolder(View view) {
             super(view);
-            mIdTextView = (TextView) view.findViewById(R.id.pokemon_list_item_id_textview);
-            mNameTypeTextView = (TextView) view.findViewById(R.id.pokemon_list_item_name_type_textview);
-            mArtworkImageView = (CircleImageView) view.findViewById(R.id.pokemon_list_item_artwork_imageview);
-            mCardView = (CardView) view.findViewById(R.id.pokemon_list_item_cardview);
-            mDescriptionTextView = (TextView) view.findViewById(R.id.pokemon_list_item_description_textview);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 
