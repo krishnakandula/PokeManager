@@ -21,6 +21,7 @@ import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import com.canvas.krish.pokemanager.data.PokemonRepository;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
+import com.canvas.krish.pokemanager.utils.ArtworkUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -110,40 +111,19 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             mNameTypeTextView.setText(nameType.toString());
             mDescriptionTextView.setText(pokemon.getDescription());
 
-            PokemonRepositories.getInMemoryPokemonRepository()
-                    .getArtworkUri(pokemon.getId(), new PokemonRepository.GetArtworkUriCallback() {
+            ArtworkUtil.updatePokemonArtwork(pokemon.getId(), mContext, mArtworkImageView, new ArtworkUtil.ArtworkCallback() {
+                @Override
+                public void onArtworkLoaded(ImageView imageView) {
+//                    Update drawable color asynchronously
+                    Bitmap imageBitmap = ((BitmapDrawable) mArtworkImageView.getDrawable()).getBitmap();
+                    Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
                         @Override
-                        public void onArtworkUriLoaded(Uri uri) {
-                            updateArtwork(uri);
+                        public void onGenerated(Palette palette) {
+                            mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
                         }
                     });
-        }
-
-        public void updateArtwork(final Uri artworkUri) {
-            Picasso.with(mContext).cancelRequest(mArtworkImageView);
-            Picasso.with(mContext)
-                    .load(artworkUri.toString())
-                    .fit().centerCrop()
-                    .noPlaceholder()
-                    .into(mArtworkImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //Update drawable color asynchronously
-                            Bitmap imageBitmap = ((BitmapDrawable) mArtworkImageView.getDrawable()).getBitmap();
-                            Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
-                                @Override
-                                public void onGenerated(Palette palette) {
-                                    mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onError() {
-                            String errorMessage = String.format("ERROR: Could not load image with URI %s", artworkUri);
-                            Log.e(LOG_TAG, errorMessage);
-                        }
-                    });
+                }
+            });
         }
 
         @Override

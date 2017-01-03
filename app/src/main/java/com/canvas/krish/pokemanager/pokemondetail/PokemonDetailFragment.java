@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +48,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         Bundle args = getArguments();
         mPokemonId = args.getInt(POKEMON_ITEM_ID);
         mPresenter = new PokemonDetailPresenter(this, mPokemonId, getContext().getApplicationContext());
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -57,7 +55,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pokemon_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         return view;
     }
 
