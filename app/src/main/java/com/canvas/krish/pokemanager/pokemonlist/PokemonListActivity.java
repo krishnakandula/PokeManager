@@ -18,7 +18,6 @@ import butterknife.Unbinder;
 
 public class PokemonListActivity extends BaseNavActivity {
     private static final String LOG_TAG = PokemonListActivity.class.getSimpleName();
-    private final String LIST_FRAGMENT_TAG = "POKEMON_LIST_FRAGMENT_TAG";
     private Unbinder mUnbinder;
 
     @BindView(R.id.activity_pokemon_list_toolbar) Toolbar mToolbar;
@@ -40,11 +39,11 @@ public class PokemonListActivity extends BaseNavActivity {
 
     private void initFragment(Fragment pokemonListFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(LIST_FRAGMENT_TAG);
+        Fragment fragment = fragmentManager.findFragmentByTag(PokemonListFragment.LIST_FRAGMENT_TAG);
         if (fragment == null) {
             fragmentManager.beginTransaction().
-                    replace(R.id.pokemon_list_container, pokemonListFragment, LIST_FRAGMENT_TAG).
-                    commit();
+                    replace(R.id.pokemon_list_container, pokemonListFragment, PokemonListFragment.LIST_FRAGMENT_TAG)
+                    .commit();
         }
     }
 

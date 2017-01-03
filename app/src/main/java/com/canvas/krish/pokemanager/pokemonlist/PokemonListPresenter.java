@@ -39,6 +39,6 @@ public class PokemonListPresenter implements PokemonListContract.UserActionsList
 
     @Override
     public void openPokemonDetails(@NonNull PokemonListItem pokemonListItem) {
-
+        mPokemonListView.showPokemonDetail(pokemonListItem);
     }
 }

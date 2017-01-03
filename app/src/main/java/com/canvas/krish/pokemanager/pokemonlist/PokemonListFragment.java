@@ -3,8 +3,8 @@ package com.canvas.krish.pokemanager.pokemonlist;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.app.FragmentManager;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
+import com.canvas.krish.pokemanager.pokemondetail.PokemonDetailFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 public class PokemonListFragment extends Fragment implements PokemonListContract.View{
     private static final String LOG_TAG = PokemonListFragment.class.getSimpleName();
     private static final String TWO_PANE_UI_KEY = "TWO_PANE_UI_KEY";
+    public static final String LIST_FRAGMENT_TAG = "POKEMON_LIST_FRAGMENT_TAG";
     private boolean mTwoPaneUI;
 
     @BindView(R.id.pokemon_list_recycler_view) RecyclerView mPokemonRecyclerView;
@@ -96,8 +98,23 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     }
 
     @Override
-    public void showPokemonDetail(String pokemonId) {
+    public void showPokemonDetail(PokemonListItem pokemonListItem) {
         //TODO: Write PokemonListFragment.showPokemonDetail()
+        FragmentManager fm = getFragmentManager();
+        Fragment fragment = fm.findFragmentByTag(PokemonDetailFragment.DETAIL_FRAGMENT_TAG);
+        if(fragment == null){
+            fragment = PokemonDetailFragment.newInstance(pokemonListItem);
+            if(mTwoPaneUI){
+                fm.beginTransaction()
+                        .replace(R.id.pokemon_detail_container, fragment, PokemonDetailFragment.DETAIL_FRAGMENT_TAG)
+                        .commit();
+            } else {
+                fm.beginTransaction()
+                        .replace(R.id.pokemon_list_container, fragment, PokemonDetailFragment.DETAIL_FRAGMENT_TAG)
+                        .addToBackStack(LIST_FRAGMENT_TAG)
+                        .commit();
+            }
+        }
     }
 
     private PokemonListAdapter.PokemonListItemClickListener mListItemListener = new PokemonListAdapter.PokemonListItemClickListener() {

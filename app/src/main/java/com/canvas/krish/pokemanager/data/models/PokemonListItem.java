@@ -4,12 +4,14 @@ package com.canvas.krish.pokemanager.data.models;
  * Created by Krishna Chaitanya Kandula on 12/19/2016.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Immutable model class for a Pokemon
  */
-public final class PokemonListItem {
+public final class PokemonListItem implements Parcelable{
     private String name;
-    private String sprite_front_default_uri;
     private int id;
     private String type1;
     private String type2;
@@ -21,14 +23,6 @@ public final class PokemonListItem {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSprite_front_default_uri() {
-        return sprite_front_default_uri;
-    }
-
-    public void setSprite_front_default_uri(String sprite_front_default_uri) {
-        this.sprite_front_default_uri = sprite_front_default_uri;
     }
 
     public int getId() {
@@ -68,4 +62,40 @@ public final class PokemonListItem {
         String string = String.format("%d: %s", id, name);
         return string;
     }
+
+    public PokemonListItem(){}
+
+    private PokemonListItem (Parcel in){
+        name = in.readString();
+        id = in.readInt();
+        type1 = in.readString();
+        type2 = in.readString();
+        description = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(id);
+        dest.writeString(type1);
+        dest.writeString(type2);
+        dest.writeString(description);
+    }
+
+    public static final Parcelable.Creator<PokemonListItem> CREATOR = new Parcelable.Creator<PokemonListItem>(){
+        @Override
+        public PokemonListItem createFromParcel(Parcel source) {
+            return new PokemonListItem(source);
+        }
+
+        @Override
+        public PokemonListItem[] newArray(int size) {
+            return new PokemonListItem[size];
+        }
+    };
 }

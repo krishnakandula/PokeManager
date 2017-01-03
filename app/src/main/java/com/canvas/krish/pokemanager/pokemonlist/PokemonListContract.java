@@ -17,7 +17,7 @@ public interface PokemonListContract {
 
         void showPokemonList(List<PokemonListItem> pokemonList);
 
-        void showPokemonDetail(String pokemonId);
+        void showPokemonDetail(PokemonListItem pokemonListItem);
     }
 
     interface UserActionsListener {

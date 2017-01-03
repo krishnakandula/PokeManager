@@ -148,6 +148,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
         @Override
         public void onClick(View v) {
+            Log.d(LOG_TAG, "OnClick");
             mListItemClickListener.onPokemonClick(mPokemonList.get(position));
         }
     }
