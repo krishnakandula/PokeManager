@@ -18,6 +18,6 @@ public interface PokemonDetailContract {
     }
 
     interface UserActionsListener extends BasePresenter {
-        void getPokemonDetails(PokemonListItem pokemonListItem);
+        void getPokemonDetails();
     }
 }

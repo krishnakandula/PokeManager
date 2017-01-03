@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/activity_pokemon_list_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:background="@color/colorPrimary">
-    </android.support.v7.widget.Toolbar>
-
     <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pokemon_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/default_bottom_margin"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginBottom="@dimen/default_bottom_margin">
 
         <include layout="@layout/pokemon_item_list"/>
     </FrameLayout>
-</android.support.design.widget.CoordinatorLayout>

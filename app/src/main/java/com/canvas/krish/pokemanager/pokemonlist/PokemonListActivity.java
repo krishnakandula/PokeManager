@@ -20,7 +20,7 @@ public class PokemonListActivity extends BaseNavActivity {
     private static final String LOG_TAG = PokemonListActivity.class.getSimpleName();
     private Unbinder mUnbinder;
 
-    @BindView(R.id.activity_pokemon_list_toolbar) Toolbar mToolbar;
+//    @BindView(R.id.activity_pokemon_list_toolbar) Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +28,12 @@ public class PokemonListActivity extends BaseNavActivity {
         setContentView(R.layout.activity_pokemon_list);
         mUnbinder = ButterKnife.bind(this);
 
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(R.string.nav_drawer_item_pokedex);
+//        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setTitle(R.string.nav_drawer_item_pokedex);
 
         setupNavDrawer(mDrawerItemClickListener);
 
-        boolean mTwoPane = (findViewById(R.id.pokemon_detail_container) != null);
-        initFragment(PokemonListFragment.newInstance(mTwoPane));
+        initFragment(PokemonListFragment.newInstance());
     }
 
     private void initFragment(Fragment pokemonListFragment) {

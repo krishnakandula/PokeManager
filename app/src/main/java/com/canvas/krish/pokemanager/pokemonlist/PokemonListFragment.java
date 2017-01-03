@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,18 +35,18 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     private static final String LOG_TAG = PokemonListFragment.class.getSimpleName();
     private static final String TWO_PANE_UI_KEY = "TWO_PANE_UI_KEY";
     public static final String LIST_FRAGMENT_TAG = "POKEMON_LIST_FRAGMENT_TAG";
-    private boolean mTwoPaneUI;
 
     @BindView(R.id.pokemon_list_recycler_view) RecyclerView mPokemonRecyclerView;
+    @BindView(R.id.pokemon_list_toolbar) Toolbar mToolbar;
+
     private PokemonListAdapter mPokemonListAdapter;
     private PokemonListContract.UserActionsListener mActionsListener;
     private Unbinder mUnbinder;
 
-    public static PokemonListFragment newInstance(boolean isUiTwoPane){
+    public static PokemonListFragment newInstance(){
         PokemonListFragment fragment = new PokemonListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putBoolean(TWO_PANE_UI_KEY, isUiTwoPane);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -54,7 +55,6 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTwoPaneUI = (boolean) getArguments().get(TWO_PANE_UI_KEY);
         mActionsListener = new PokemonListPresenter(PokemonRepositories.getInMemoryPokemonRepository(),
                 this, getActivity().getApplicationContext());
     }
@@ -65,6 +65,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         View view = inflater.inflate(R.layout.pokemon_item_list, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         setupRecyclerView();
+        mToolbar.setTitle(R.string.nav_drawer_item_pokedex);
         return view;
     }
 
@@ -103,17 +104,11 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentByTag(PokemonDetailFragment.DETAIL_FRAGMENT_TAG);
         if(fragment == null){
-            fragment = PokemonDetailFragment.newInstance(pokemonListItem);
-            if(mTwoPaneUI){
-                fm.beginTransaction()
-                        .replace(R.id.pokemon_detail_container, fragment, PokemonDetailFragment.DETAIL_FRAGMENT_TAG)
-                        .commit();
-            } else {
-                fm.beginTransaction()
-                        .replace(R.id.pokemon_list_container, fragment, PokemonDetailFragment.DETAIL_FRAGMENT_TAG)
-                        .addToBackStack(LIST_FRAGMENT_TAG)
-                        .commit();
-            }
+            fragment = PokemonDetailFragment.newInstance(pokemonListItem.getId());
+            fm.beginTransaction()
+                    .replace(R.id.pokemon_list_container, fragment, PokemonDetailFragment.DETAIL_FRAGMENT_TAG)
+                    .addToBackStack(LIST_FRAGMENT_TAG)
+                    .commit();
         }
     }
 

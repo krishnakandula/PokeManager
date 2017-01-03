@@ -1,6 +1,12 @@
 package com.canvas.krish.pokemanager.pokemondetail;
 
+import android.content.Context;
+
+import com.canvas.krish.pokemanager.data.PokemonRepositories;
+import com.canvas.krish.pokemanager.data.PokemonRepository;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,21 +18,29 @@ import dagger.Module;
 @Module
 public class PokemonDetailPresenter implements PokemonDetailContract.UserActionsListener {
     private final PokemonDetailContract.View mDetailView;
-    private String pokemonDetails;
+    private int mPokemonId;
+    private Context mContext;
 
     @Inject
-    public PokemonDetailPresenter(PokemonDetailContract.View detailView){
+    public PokemonDetailPresenter(PokemonDetailContract.View detailView, int pokemonId, Context context){
         mDetailView = detailView;
-        mDetailView.setPresenter(this);
+        mPokemonId = pokemonId;
+        mContext = context;
     }
 
     @Override
-    public void getPokemonDetails(PokemonListItem pokemonListItem) {
-        pokemonDetails = pokemonListItem.getName();
+    public void getPokemonDetails() {
+        PokemonRepositories.getInMemoryPokemonRepository()
+                .getPokemonList(mContext, new PokemonRepository.LoadPokemonCallback() {
+                    @Override
+                    public void onPokemonLoaded(List<PokemonListItem> pokemonList) {
+                        mDetailView.showPokemonDetails(pokemonList.get(mPokemonId - 1), null);
+                    }
+                });
     }
 
     @Override
     public void start() {
-//        getPokemonDetails();
+        getPokemonDetails();
     }
 }
