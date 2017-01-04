@@ -8,13 +8,14 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/fragment_pokemon_detail_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fragment_pokemon_detail_artwork"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/detail_artwork_image_view_height"
+            android:layout_height="@dimen/detail_artwork_image_view_height"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginBottom="@dimen/default_bottom_margin"
             android:layout_marginTop="@dimen/default_top_margin"
@@ -33,9 +34,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:text="POKEMON_NAME"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:text="POKEMON_NAME"/>
+                android:textColor="@color/white"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

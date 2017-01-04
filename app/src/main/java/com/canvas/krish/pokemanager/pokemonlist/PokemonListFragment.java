@@ -1,5 +1,6 @@
 package com.canvas.krish.pokemanager.pokemonlist;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,8 +15,10 @@ import android.view.ViewGroup;
 
 import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
+import com.canvas.krish.pokemanager.data.PokemonRepository;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 import com.canvas.krish.pokemanager.pokemondetail.PokemonDetailFragment;
+import com.canvas.krish.pokemanager.utils.PicassoCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,6 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class PokemonListFragment extends Fragment implements PokemonListContract.View{
     private static final String LOG_TAG = PokemonListFragment.class.getSimpleName();
-    private static final String TWO_PANE_UI_KEY = "TWO_PANE_UI_KEY";
     public static final String LIST_FRAGMENT_TAG = "POKEMON_LIST_FRAGMENT_TAG";
 
     @BindView(R.id.pokemon_list_recycler_view) RecyclerView mPokemonRecyclerView;
@@ -73,13 +75,17 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     public void onResume() {
         super.onResume();
         mActionsListener.loadPokemon();
+        updateUiColors();
+        //Resume loading of images
+        PicassoCache.getPicassoInstance(getActivity().getApplicationContext())
+                .resumeTag(PokemonListAdapter.POKEMON_ARTWORK_LIST_TAG);
     }
 
     private void setupRecyclerView(){
         int animationTime = 300;
         int itemViewCacheSize = 30;
 
-        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getContext(), mListItemListener);
+        mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getActivity().getApplicationContext(), mListItemListener);
 
 //        Set animation adapter for scale in and alpha in
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(mPokemonListAdapter);
@@ -112,12 +118,30 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         }
     }
 
+    private void updateUiColors(){
+        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+    }
+
     private PokemonListAdapter.PokemonListItemClickListener mListItemListener = new PokemonListAdapter.PokemonListItemClickListener() {
         @Override
         public void onPokemonClick(PokemonListItem pokemonListItem) {
+            PokemonRepositories.getInMemoryPokemonRepository().getArtworkUri(pokemonListItem.getId(), new PokemonRepository.GetArtworkUriCallback() {
+                @Override
+                public void onArtworkUriLoaded(Uri uri) {
+                    PicassoCache.getPicassoInstance(getActivity().getApplicationContext()).load(uri).fetch();
+                }
+            });
             mActionsListener.openPokemonDetails(pokemonListItem);
         }
     };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //Stop loading of images
+        PicassoCache.getPicassoInstance(getActivity().getApplicationContext())
+                .cancelTag(PokemonListAdapter.POKEMON_ARTWORK_LIST_TAG);
+    }
 
     @Override
     public void onDestroyView() {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.graphics.Palette;
@@ -21,17 +20,12 @@ import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import com.canvas.krish.pokemanager.data.PokemonRepository;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
-import com.canvas.krish.pokemanager.utils.ArtworkUtil;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.canvas.krish.pokemanager.utils.PicassoCache;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +38,7 @@ import static com.google.common.base.Preconditions.*;
  */
 
 public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.ListViewHolder> {
-
+    public static final String POKEMON_ARTWORK_LIST_TAG = "pokemon_artwork";
     private static final String LOG_TAG = PokemonListAdapter.class.getSimpleName();
     private List<PokemonListItem> mPokemonList;
     private Context mContext;
@@ -111,19 +105,43 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             mNameTypeTextView.setText(nameType.toString());
             mDescriptionTextView.setText(pokemon.getDescription());
 
-            ArtworkUtil.updatePokemonArtwork(pokemon.getId(), mContext, mArtworkImageView, new ArtworkUtil.ArtworkCallback() {
-                @Override
-                public void onArtworkLoaded(ImageView imageView) {
-//                    Update drawable color asynchronously
-                    Bitmap imageBitmap = ((BitmapDrawable) mArtworkImageView.getDrawable()).getBitmap();
-                    Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
+            PokemonRepositories.getInMemoryPokemonRepository()
+                    .getArtworkUri(pokemon.getId(), new PokemonRepository.GetArtworkUriCallback() {
                         @Override
-                        public void onGenerated(Palette palette) {
-                            mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                        public void onArtworkUriLoaded(Uri uri) {
+                            updateArtwork(uri);
                         }
                     });
-                }
-            });
+        }
+
+        public void updateArtwork(final Uri artworkUri) {
+            Picasso picasso = PicassoCache.getPicassoInstance(mContext);
+//            picasso.setIndicatorsEnabled(true);
+//            picasso.setLoggingEnabled(true);
+            picasso.with(mContext)
+                    .load(artworkUri.toString())
+                    .tag(POKEMON_ARTWORK_LIST_TAG)
+                    .resizeDimen(R.dimen.list_artwork_image_view_height, R.dimen.list_artwork_image_view_height)
+                    .centerCrop()
+                    .into(mArtworkImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            //Update drawable color asynchronously
+                            Bitmap imageBitmap = ((BitmapDrawable) mArtworkImageView.getDrawable()).getBitmap();
+                            Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError() {
+                            String errorMessage = String.format("ERROR: Could not load image with URI %s", artworkUri);
+                            Log.e(LOG_TAG, errorMessage);
+                        }
+                    });
         }
 
         @Override
