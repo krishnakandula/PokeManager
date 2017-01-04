@@ -96,7 +96,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         mPokemonRecyclerView.setDrawingCacheEnabled(true);
         mPokemonRecyclerView.setItemViewCacheSize(itemViewCacheSize);
         mPokemonRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
-        mPokemonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mPokemonRecyclerView.setLayoutManager(new PokemonListLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
