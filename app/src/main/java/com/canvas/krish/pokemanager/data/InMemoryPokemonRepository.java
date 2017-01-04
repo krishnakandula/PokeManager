@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.canvas.krish.pokemanager.Config;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -75,17 +76,8 @@ public class InMemoryPokemonRepository implements PokemonRepository {
 
     @Override
     public void getArtworkUri(@NonNull int pokemonId, @NonNull final GetArtworkUriCallback callback) {
-        mPokemonServiceApi.getPokemonArtwork(pokemonId, new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                callback.onArtworkUriLoaded(uri);
-            }
-        }, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(LOG_TAG, e.getMessage());
-            }
-        });
+        Uri uri = Uri.parse(String.format(Config.BASE_IMAGE_URL, pokemonId));
+        callback.onArtworkUriLoaded(uri);
     }
 
     @Override

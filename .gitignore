@@ -46,3 +46,6 @@ captures/
 
 # Firebase
 google-services.json
+
+#Config files
+Config.java
