@@ -6,10 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.Config;
-import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

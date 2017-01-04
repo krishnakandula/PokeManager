@@ -23,6 +23,4 @@ interface PokemonServiceApi {
     void getPokemonList(int minId, int maxId, Context context, PokemonServiceCallback<JSONArray> callback);
 
     void getPokemon(int id, PokemonServiceCallback<JSONObject> callback);
-
-    void getPokemonArtwork(int id, OnSuccessListener<Uri> callback, OnFailureListener failure);
 }
