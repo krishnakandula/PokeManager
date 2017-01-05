@@ -16,6 +16,7 @@ public final class PokemonListItem implements Parcelable{
     private String type1;
     private String type2;
     private String description;
+    private int backgroundColor;
 
     public String getName() {
         return name;
@@ -57,6 +58,14 @@ public final class PokemonListItem implements Parcelable{
         this.description = description;
     }
 
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
     @Override
     public String toString() {
         String string = String.format("%d: %s", id, name);
@@ -71,6 +80,7 @@ public final class PokemonListItem implements Parcelable{
         type1 = in.readString();
         type2 = in.readString();
         description = in.readString();
+        backgroundColor = in.readInt();
     }
 
     @Override
@@ -85,6 +95,7 @@ public final class PokemonListItem implements Parcelable{
         dest.writeString(type1);
         dest.writeString(type2);
         dest.writeString(description);
+        dest.writeInt(backgroundColor);
     }
 
     public static final Parcelable.Creator<PokemonListItem> CREATOR = new Parcelable.Creator<PokemonListItem>(){

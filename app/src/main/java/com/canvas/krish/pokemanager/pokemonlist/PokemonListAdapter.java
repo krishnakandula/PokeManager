@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.graphics.Palette;
@@ -64,7 +65,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
-        PokemonListItem pokemon = mPokemonList.get(position);
         holder.bind(position);
     }
 
@@ -86,7 +86,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         @BindView(R.id.pokemon_list_item_cardview) CardView mCardView;
         @BindView(R.id.pokemon_list_item_description_textview) TextView mDescriptionTextView;
         int position;
-
+        private PokemonListItem pokemon;
         final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
 
         public ListViewHolder(View view) {
@@ -97,7 +97,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
         public void bind(@NonNull int position) {
             this.position = position;
-            PokemonListItem pokemon = mPokemonList.get(position);
+            pokemon = mPokemonList.get(position);
             mIdTextView.setText("#" + pokemon.getId());
             StringBuilder nameType = new StringBuilder(String.format("%s \n%s", pokemon.getName(), pokemon.getType1()));
             if (pokemon.getType2() != null)
@@ -131,7 +131,8 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                             Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
-                                    mCardView.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                                    pokemon.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                                    mCardView.setBackgroundColor(pokemon.getBackgroundColor());
                                 }
                             });
                         }
@@ -146,7 +147,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
         @Override
         public void onClick(View v) {
-            Log.d(LOG_TAG, "OnClick");
             mListItemClickListener.onPokemonClick(mPokemonList.get(position));
         }
     }

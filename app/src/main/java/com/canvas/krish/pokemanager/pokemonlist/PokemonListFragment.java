@@ -23,6 +23,7 @@ import com.canvas.krish.pokemanager.utils.PicassoCache;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -40,6 +41,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
 
     @BindView(R.id.pokemon_list_recycler_view) RecyclerView mPokemonRecyclerView;
     @BindView(R.id.pokemon_list_toolbar) Toolbar mToolbar;
+    @BindColor(R.color.colorPrimaryDark) int mColorPrimaryDark;
 
     private PokemonListAdapter mPokemonListAdapter;
     private PokemonListContract.UserActionsListener mActionsListener;
@@ -119,7 +121,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
     }
 
     private void updateUiColors(){
-        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        getActivity().getWindow().setStatusBarColor(mColorPrimaryDark);
     }
 
     private PokemonListAdapter.PokemonListItemClickListener mListItemListener = new PokemonListAdapter.PokemonListItemClickListener() {

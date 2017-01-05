@@ -79,11 +79,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         mPresenter.start();
@@ -93,6 +88,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     public void showPokemonDetails(@NonNull PokemonListItem pokemonListItem, @NonNull PokemonDetail pokemonDetail) {
         updateArtwork(pokemonListItem);
         mNameTextView.setText(pokemonListItem.getName());
+        updateUiColors(pokemonListItem.getBackgroundColor());
     }
 
     private void updateArtwork(PokemonListItem pokemonListItem){
@@ -107,29 +103,12 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .resizeDimen(R.dimen.detail_artwork_image_view_height, R.dimen.detail_artwork_image_view_height)
                         .centerCrop()
-                        .into(mArtworkImageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Bitmap imageBitmap = ((BitmapDrawable) mArtworkImageView.getDrawable()).getBitmap();
-                                Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
-                                    @Override
-                                    public void onGenerated(Palette palette) {
-                                        updateUiColors(palette);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onError() {
-                                Log.e(LOG_TAG, "ERROR: Could not load image.");
-                            }
-                        });
+                        .into(mArtworkImageView);
             }
         });
     }
 
-    private void updateUiColors(Palette palette){
-        int primaryColor = palette.getMutedColor(getResources().getColor(R.color.colorPrimary));
+    private void updateUiColors(int primaryColor){
         getActivity().getWindow().setStatusBarColor(primaryColor);
         mToolbar.setBackgroundColor(primaryColor);
         mAppBarLayout.setBackground(new ColorDrawable(primaryColor));
