@@ -50,6 +50,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @BindView(R.id.fragment_pokemon_detail_artwork) CircleImageView mArtworkImageView;
     @BindView(R.id.fragment_pokemon_detail_app_bar) AppBarLayout mAppBarLayout;
     @BindView(R.id.fragment_pokemon_detail_name) TextView mNameTextView;
+    @BindView(R.id.fragment_pokemon_detail_id) TextView mIdTextView;
 
     PokemonDetailContract.UserActionsListener mPresenter;
 
@@ -88,6 +89,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     public void showPokemonDetails(@NonNull PokemonListItem pokemonListItem, @NonNull PokemonDetail pokemonDetail) {
         updateArtwork(pokemonListItem);
         mNameTextView.setText(pokemonListItem.getName());
+        mIdTextView.setText(String.format("#%d", pokemonListItem.getId()));
         updateUiColors(pokemonListItem.getBackgroundColor());
     }
 

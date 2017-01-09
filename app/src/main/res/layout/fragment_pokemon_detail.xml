@@ -17,35 +17,64 @@
             android:layout_width="@dimen/detail_artwork_image_view_height"
             android:layout_height="@dimen/detail_artwork_image_view_height"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="@dimen/default_bottom_margin"
-            android:layout_marginTop="@dimen/default_top_margin"
             android:background="@drawable/pokemon_id_circle"/>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/fragment_pokemon_detail_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="center_horizontal"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <TextView
-                android:id="@+id/fragment_pokemon_detail_name"
-                android:layout_width="wrap_content"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="POKEMON_NAME"
-                android:textSize="24sp"
-                android:fontFamily="sans-serif"
-                android:textAlignment="center"
-                android:textColor="@color/white"/>
+                android:layout_marginRight="16dp">
+
+                <TextView
+                    android:id="@+id/fragment_pokemon_detail_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="#ID"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="ID"/>
+
+                <TextView
+                    android:id="@+id/fragment_pokemon_detail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_vertical"
+                    android:text="POKEMON_NAME"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/fragment_pokemon_detail_id"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="NAME"
+                    />
+            </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
