@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -85,6 +86,8 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         @BindView(R.id.pokemon_list_item_artwork_imageview) CircleImageView mArtworkImageView;
         @BindView(R.id.pokemon_list_item_cardview) CardView mCardView;
         @BindView(R.id.pokemon_list_item_description_textview) TextView mDescriptionTextView;
+        @BindColor(R.color.primary) int defaultColor;
+
         int position;
         private PokemonListItem pokemon;
         final String defaultBackgroundColor = "#FFFFFF";  //White: default CardView background color
@@ -131,7 +134,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                             Palette.from(imageBitmap).generate(new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
-                                    pokemon.setBackgroundColor(palette.getMutedColor(Color.parseColor(defaultBackgroundColor)));
+                                    pokemon.setBackgroundColor(palette.getMutedColor(defaultColor));
                                     mCardView.setBackgroundColor(pokemon.getBackgroundColor());
                                 }
                             });

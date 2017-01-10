@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DescriptionTextBoxStyle">
+        <item name="android:background">@drawable/pokemon_name_textview</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textStyle">normal|italic</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">4dp</item>
+
+    </style>
 </resources>
