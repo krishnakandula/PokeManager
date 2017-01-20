@@ -86,12 +86,18 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     }
 
     @Override
-    public void showPokemonDetails(@NonNull PokemonListItem pokemonListItem, @NonNull PokemonDetail pokemonDetail) {
+    public void showPokemonDetails(@NonNull PokemonDetail pokemonDetail) {
+        Log.v(LOG_TAG, pokemonDetail.toString());
+    }
+
+    @Override
+    public void showPokemonHeader(@NonNull PokemonListItem pokemonListItem) {
         updateArtwork(pokemonListItem);
+        updateUiColors(pokemonListItem.getBackgroundColor());
+
         mNameTextView.setText(pokemonListItem.getName());
         mIdTextView.setText(String.format("#%d", pokemonListItem.getId()));
         mDescriptionTextView.setText(pokemonListItem.getDescription());
-        updateUiColors(pokemonListItem.getBackgroundColor());
     }
 
     private void updateArtwork(PokemonListItem pokemonListItem){

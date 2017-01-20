@@ -13,8 +13,8 @@ import dagger.Component;
 
 public interface PokemonDetailContract {
     interface View extends BaseView<UserActionsListener>{
-
-        void showPokemonDetails(PokemonListItem pokemonListItem, PokemonDetail pokemonDetail);
+        void showPokemonHeader(PokemonListItem pokemonListItem);
+        void showPokemonDetails(PokemonDetail pokemonDetail);
     }
 
     interface UserActionsListener extends BasePresenter {

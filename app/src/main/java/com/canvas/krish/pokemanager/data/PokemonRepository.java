@@ -26,7 +26,7 @@ public interface PokemonRepository {
      * Callback for retrieving a single Pokemon in a repository
      */
     interface GetPokemonCallback {
-        void onPokemonLoaded(PokemonDetail pokemon);
+        void onPokemonLoaded(PokemonDetail pokemonDetail);
     }
 
     interface GetArtworkUriCallback {

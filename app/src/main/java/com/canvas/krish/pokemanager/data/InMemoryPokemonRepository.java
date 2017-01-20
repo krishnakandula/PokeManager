@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.canvas.krish.pokemanager.Config;
+import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 import org.json.JSONArray;
@@ -64,11 +65,17 @@ public class InMemoryPokemonRepository implements PokemonRepository {
     }
 
     @Override
-    public void getPokemon(@NonNull int pokemonId, @NonNull GetPokemonCallback callback) {
+    public void getPokemon(@NonNull int pokemonId, @NonNull final GetPokemonCallback callback) {
         //TODO: Write InMemoryPokemonRepository.getPokemon()
         //Check if mCachedPokemon.get(pokemonId) is null
         //If not, callback.onPokemonLoaded(mCachedPokemon.get(pokemonId).getPokemonDetail())
         //If null, pokemonServiceApi.get(pokemonId, new PokemonServiceCallback...), then parse JsonObject
+        mPokemonServiceApi.getPokemon(pokemonId, new PokemonServiceApi.PokemonServiceCallback<PokemonDetail>() {
+            @Override
+            public void onLoaded(PokemonDetail pokemon) {
+                callback.onPokemonLoaded(pokemon);
+            }
+        });
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import com.canvas.krish.pokemanager.data.PokemonRepository;
+import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 import java.util.List;
@@ -33,10 +34,17 @@ public class PokemonDetailPresenter implements PokemonDetailContract.UserActions
         PokemonRepositories.getInMemoryPokemonRepository()
                 .getPokemonList(mContext, new PokemonRepository.LoadPokemonCallback() {
                     @Override
-                    public void onPokemonLoaded(List<PokemonListItem> pokemonList) {
-                        mDetailView.showPokemonDetails(pokemonList.get(mPokemonId - 1), null);
+                    public void onPokemonLoaded(final List<PokemonListItem> pokemonList) {
+                        mDetailView.showPokemonHeader(pokemonList.get(mPokemonId - 1));
                     }
                 });
+        PokemonRepositories.getInMemoryPokemonRepository()
+                .getPokemon(mPokemonId, new PokemonRepository.GetPokemonCallback() {
+                    @Override
+                    public void onPokemonLoaded(PokemonDetail pokemonDetail) {
+                        mDetailView.showPokemonDetails(pokemonDetail);
+                    }
+        });
     }
 
     @Override
