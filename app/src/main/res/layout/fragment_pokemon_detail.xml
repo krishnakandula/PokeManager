@@ -36,11 +36,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
                     android:text="#ID"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/fragment_pokemon_detail_description"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="ID" />
@@ -51,19 +50,36 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center_vertical"
                     android:text="POKEMON_NAME"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/fragment_pokemon_detail_description"
                     app:layout_constraintLeft_toRightOf="@+id/fragment_pokemon_detail_id"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="NAME" />
+                    tools:text="NAME"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/fragment_pokemon_detail_description"
+                    style="@style/DescriptionTextBoxStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="DESCRIPTION"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_pokemon_detail_name"
+                    tools:text="DESCRIPTION"
+                    tools:textColor="@color/colorPrimary"
+                    android:layout_marginTop="8dp" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.Toolbar>
 
@@ -72,30 +88,22 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/fragment_pokemon_detail_description"
-                style="@style/DescriptionTextBoxStyle"
+            android:layout_height="wrap_content"
+            android:paddingTop="400dp">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/fragment_pokemon_detail_view_pager"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="DESCRIPTION"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                tools:textColor="@color/colorPrimary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="DESCRIPTION" />
+                android:layout_height="0dp"
+                tools:layout_editor_absoluteY="8dp"
+                tools:layout_editor_absoluteX="8dp">
 
+            </android.support.v4.view.ViewPager>
+        </FrameLayout>
 
-        </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

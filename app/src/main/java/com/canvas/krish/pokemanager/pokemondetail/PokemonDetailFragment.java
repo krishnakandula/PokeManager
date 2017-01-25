@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -52,6 +55,8 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @BindView(R.id.fragment_pokemon_detail_name) TextView mNameTextView;
     @BindView(R.id.fragment_pokemon_detail_id) TextView mIdTextView;
     @BindView(R.id.fragment_pokemon_detail_description) TextView mDescriptionTextView;
+//    @BindView(R.id.fragment_pokemon_detail_view_pager) ViewPager mDetailViewPager;
+    private ViewPager mDetailViewPager;
     PokemonDetailContract.UserActionsListener mPresenter;
 
     public static PokemonDetailFragment newInstance(@NonNull int pokemonId) {
@@ -65,7 +70,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Bundle args = getArguments();
         mPokemonId = args.getInt(POKEMON_ITEM_ID);
         mPresenter = new PokemonDetailPresenter(this, mPokemonId, getContext().getApplicationContext());
@@ -76,6 +80,8 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pokemon_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        mDetailViewPager = (ViewPager) view.findViewById(R.id.fragment_pokemon_detail_view_pager);
+        setupDetailViewPager();
         return view;
     }
 
@@ -87,7 +93,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
 
     @Override
     public void showPokemonDetails(@NonNull PokemonDetail pokemonDetail) {
-        Log.v(LOG_TAG, pokemonDetail.toString());
+//        Log.v(LOG_TAG, pokemonDetail.toString());
     }
 
     @Override
@@ -121,6 +127,11 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         getActivity().getWindow().setStatusBarColor(primaryColor);
         mToolbar.setBackgroundColor(primaryColor);
         mAppBarLayout.setBackground(new ColorDrawable(primaryColor));
+    }
+
+    private void setupDetailViewPager(){
+        PagerAdapter viewPagerAdapter = new PokemonDetailPagerAdapter(getChildFragmentManager());
+        mDetailViewPager.setAdapter(viewPagerAdapter);
     }
 
     @Override

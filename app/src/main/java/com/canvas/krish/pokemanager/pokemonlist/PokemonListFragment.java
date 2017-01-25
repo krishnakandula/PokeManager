@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -89,17 +90,22 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
         int itemViewCacheSize = 30;
 
         mPokemonListAdapter = new PokemonListAdapter(new ArrayList<PokemonListItem>(), getActivity().getApplicationContext(), mListItemListener);
+        PokemonListLinearLayoutManager layoutManager = new PokemonListLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
 //        Set animation adapter for scale in and alpha in
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(mPokemonListAdapter);
         animationAdapter.setDuration(animationTime);
+
+//        Set divider to separate items
+        DividerItemDecoration dividerDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+        mPokemonRecyclerView.addItemDecoration(dividerDecoration);
 
         mPokemonRecyclerView.setAdapter(new AlphaInAnimationAdapter(animationAdapter));
         mPokemonRecyclerView.setHasFixedSize(true);
         mPokemonRecyclerView.setDrawingCacheEnabled(true);
         mPokemonRecyclerView.setItemViewCacheSize(itemViewCacheSize);
         mPokemonRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
-        mPokemonRecyclerView.setLayoutManager(new PokemonListLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mPokemonRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
