@@ -1,25 +1,20 @@
 package com.canvas.krish.pokemanager.pokemondetail;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.canvas.krish.pokemanager.R;
@@ -28,10 +23,8 @@ import com.canvas.krish.pokemanager.data.PokemonRepository;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 import com.canvas.krish.pokemanager.utils.PicassoCache;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,8 +48,9 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @BindView(R.id.fragment_pokemon_detail_name) TextView mNameTextView;
     @BindView(R.id.fragment_pokemon_detail_id) TextView mIdTextView;
     @BindView(R.id.fragment_pokemon_detail_description) TextView mDescriptionTextView;
-//    @BindView(R.id.fragment_pokemon_detail_view_pager) ViewPager mDetailViewPager;
-    private ViewPager mDetailViewPager;
+    @BindView(R.id.fragment_pokemon_detail_view_pager) ViewPager mDetailViewPager;
+    @BindView(R.id.fragment_pokemon_detail_tab_layout) TabLayout mTabLayout;
+
     PokemonDetailContract.UserActionsListener mPresenter;
 
     public static PokemonDetailFragment newInstance(@NonNull int pokemonId) {
@@ -80,7 +74,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pokemon_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        mDetailViewPager = (ViewPager) view.findViewById(R.id.fragment_pokemon_detail_view_pager);
         setupDetailViewPager();
         return view;
     }
@@ -104,6 +97,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         mNameTextView.setText(pokemonListItem.getName());
         mIdTextView.setText(String.format("#%d", pokemonListItem.getId()));
         mDescriptionTextView.setText(pokemonListItem.getDescription());
+        mTabLayout.setSelectedTabIndicatorColor(pokemonListItem.getBackgroundColor());
     }
 
     private void updateArtwork(PokemonListItem pokemonListItem){
@@ -132,6 +126,8 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     private void setupDetailViewPager(){
         PagerAdapter viewPagerAdapter = new PokemonDetailPagerAdapter(getChildFragmentManager());
         mDetailViewPager.setAdapter(viewPagerAdapter);
+        mTabLayout.setupWithViewPager(mDetailViewPager);
+
     }
 
     @Override
