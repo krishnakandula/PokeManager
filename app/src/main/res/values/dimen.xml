@@ -12,4 +12,5 @@
     <dimen name="list_artwork_image_view_height">100dp</dimen>
     <dimen name="detail_artwork_image_view_height">100dp</dimen>
     <dimen name="detail_collapsing_toolbar_height">60dp</dimen>
+    <dimen name="detail_tab_indicator_height">4dp</dimen>
 </resources>

@@ -21,7 +21,7 @@
             app:layout_scrollFlags="scroll|snap">
 
         </android.support.design.widget.CollapsingToolbarLayout>
-        
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fragment_pokemon_detail_artwork"
             android:layout_width="@dimen/detail_artwork_image_view_height"
@@ -93,6 +93,7 @@
             android:id="@+id/fragment_pokemon_detail_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabIndicatorHeight="@dimen/detail_tab_indicator_height"
             ></android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -115,5 +116,4 @@
             </android.support.v4.view.ViewPager>
         </FrameLayout>
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.design.widget.CoordinatorLayout>
