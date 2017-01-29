@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.canvas.krish.pokemanager.R;
@@ -43,13 +46,14 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     private int mPokemonId;
 
     @BindView(R.id.fragment_pokemon_detail_toolbar) Toolbar mToolbar;
-    @BindView(R.id.fragment_pokemon_detail_artwork) CircleImageView mArtworkImageView;
+    @BindView(R.id.fragment_pokemon_detail_artwork) ImageView mArtworkImageView;
     @BindView(R.id.fragment_pokemon_detail_app_bar) AppBarLayout mAppBarLayout;
     @BindView(R.id.fragment_pokemon_detail_name) TextView mNameTextView;
     @BindView(R.id.fragment_pokemon_detail_id) TextView mIdTextView;
     @BindView(R.id.fragment_pokemon_detail_description) TextView mDescriptionTextView;
     @BindView(R.id.fragment_pokemon_detail_view_pager) ViewPager mDetailViewPager;
     @BindView(R.id.fragment_pokemon_detail_tab_layout) TabLayout mTabLayout;
+    @BindView(R.id.fragment_pokemon_detail_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbar;
 
     PokemonDetailContract.UserActionsListener mPresenter;
 
@@ -75,6 +79,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         View view = inflater.inflate(R.layout.fragment_pokemon_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         setupDetailViewPager();
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         return view;
     }
 
@@ -98,6 +103,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         mIdTextView.setText(String.format("#%d", pokemonListItem.getId()));
         mDescriptionTextView.setText(pokemonListItem.getDescription());
         mTabLayout.setSelectedTabIndicatorColor(pokemonListItem.getBackgroundColor());
+        mCollapsingToolbar.setTitle(pokemonListItem.getName());
     }
 
     private void updateArtwork(PokemonListItem pokemonListItem){
@@ -127,7 +133,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         PagerAdapter viewPagerAdapter = new PokemonDetailPagerAdapter(getChildFragmentManager());
         mDetailViewPager.setAdapter(viewPagerAdapter);
         mTabLayout.setupWithViewPager(mDetailViewPager);
-
     }
 
     @Override
