@@ -50,7 +50,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @BindView(R.id.fragment_pokemon_detail_app_bar) AppBarLayout mAppBarLayout;
     @BindView(R.id.fragment_pokemon_detail_name) TextView mNameTextView;
     @BindView(R.id.fragment_pokemon_detail_id) TextView mIdTextView;
-    @BindView(R.id.fragment_pokemon_detail_description) TextView mDescriptionTextView;
     @BindView(R.id.fragment_pokemon_detail_view_pager) ViewPager mDetailViewPager;
     @BindView(R.id.fragment_pokemon_detail_tab_layout) TabLayout mTabLayout;
     @BindView(R.id.fragment_pokemon_detail_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbar;
@@ -79,7 +78,6 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         View view = inflater.inflate(R.layout.fragment_pokemon_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         setupDetailViewPager();
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         return view;
     }
 
@@ -97,13 +95,10 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @Override
     public void showPokemonHeader(@NonNull PokemonListItem pokemonListItem) {
         updateArtwork(pokemonListItem);
-        updateUiColors(pokemonListItem.getBackgroundColor());
+        updateUiColors(pokemonListItem.getBackgroundColor(), pokemonListItem.getSecondaryColor());
 
         mNameTextView.setText(pokemonListItem.getName());
         mIdTextView.setText(String.format("#%d", pokemonListItem.getId()));
-        mDescriptionTextView.setText(pokemonListItem.getDescription());
-        mTabLayout.setSelectedTabIndicatorColor(pokemonListItem.getBackgroundColor());
-        mCollapsingToolbar.setTitle(pokemonListItem.getName());
     }
 
     private void updateArtwork(PokemonListItem pokemonListItem){
@@ -123,10 +118,12 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
         });
     }
 
-    private void updateUiColors(int primaryColor){
-        getActivity().getWindow().setStatusBarColor(primaryColor);
+    private void updateUiColors(int primaryColor, int secondaryColor){
+        getActivity().getWindow().setStatusBarColor(secondaryColor);
         mToolbar.setBackgroundColor(primaryColor);
         mAppBarLayout.setBackground(new ColorDrawable(primaryColor));
+        mTabLayout.setSelectedTabIndicatorColor(secondaryColor);
+
     }
 
     private void setupDetailViewPager(){
