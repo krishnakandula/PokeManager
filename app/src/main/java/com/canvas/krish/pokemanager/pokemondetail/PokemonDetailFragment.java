@@ -127,7 +127,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     }
 
     private void setupDetailViewPager(){
-        PagerAdapter viewPagerAdapter = new PokemonDetailPagerAdapter(getChildFragmentManager());
+        PagerAdapter viewPagerAdapter = new PokemonDetailPagerAdapter(getChildFragmentManager(), mPokemonId);
         mDetailViewPager.setAdapter(viewPagerAdapter);
         mTabLayout.setupWithViewPager(mDetailViewPager);
     }

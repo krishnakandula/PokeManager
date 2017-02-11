@@ -16,9 +16,9 @@ public class PokemonDetailPagerAdapter extends FragmentPagerAdapter{
     private static final String[] pageTitles = {"Information", "Moves"};
     Fragment[] pagerFragments;
 
-    protected PokemonDetailPagerAdapter(FragmentManager fragmentManager){
+    protected PokemonDetailPagerAdapter(FragmentManager fragmentManager, int pokemonId){
         super(fragmentManager);
-        pagerFragments = new Fragment[]{new InfoFragment(), new MovesFragment()};
+        pagerFragments = new Fragment[]{InfoFragment.newInstance(pokemonId), new MovesFragment()};
     }
 
     @Override

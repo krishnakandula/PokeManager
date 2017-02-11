@@ -9,7 +9,17 @@ import android.view.ViewGroup;
 
 import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.canvas.krish.pokemanager.data.models.detail.Stat;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -20,10 +30,24 @@ import butterknife.Unbinder;
 public class InfoFragment extends Fragment implements InfoContract.View{
 
     private Unbinder mUnbinder;
+    private InfoContract.Presenter mPresenter;
+
+    public static final String INFO_FRAGMENT_POKEMON_ID_KEY = "info_fragment_pokemon_id_key";
+    @BindView(R.id.detail_info_stats_chart) HorizontalBarChart statsChart;
+
+    public static InfoFragment newInstance(int pokemonId) {
+        Bundle args = new Bundle();
+        args.putInt(INFO_FRAGMENT_POKEMON_ID_KEY, pokemonId);
+        InfoFragment fragment = new InfoFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int pokemonId = getArguments().getInt(INFO_FRAGMENT_POKEMON_ID_KEY);
+        this.mPresenter = new InfoPresenter(this, pokemonId);
     }
 
     @Nullable
@@ -31,12 +55,35 @@ public class InfoFragment extends Fragment implements InfoContract.View{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pokemon_detail_info, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
         return view;
     }
 
     @Override
-    public void showPokemonInfo(PokemonDetail pokemonDetail) {
+    public void onStart() {
+        super.onStart();
+        mPresenter.start();
+    }
 
+    @Override
+    public void showPokemonInfo(PokemonDetail pokemonDetail) {
+        bindStats(pokemonDetail);
+    }
+
+    private void bindStats(PokemonDetail pokemonDetail){
+        List<Stat> stats = pokemonDetail.getStats();
+        List<BarEntry> entries = new ArrayList<>();
+        int index = 0;
+        for(Stat stat : stats)
+            entries.add(new BarEntry(index++, stat.getBaseStat()));
+
+        BarDataSet dataSet = new BarDataSet(entries, "Stats");
+        BarData data = new BarData(dataSet);
+        statsChart.setData(data);
+        statsChart.setFitBars(true);
+        statsChart.setHardwareAccelerationEnabled(true);
+        //Refresh chart
+        statsChart.invalidate();
     }
 
     @Override

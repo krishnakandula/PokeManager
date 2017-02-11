@@ -1,5 +1,6 @@
 package com.canvas.krish.pokemanager.pokemondetail.viewpager;
 
+import com.canvas.krish.pokemanager.BasePresenter;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 
 /**
@@ -10,7 +11,7 @@ public interface InfoContract {
     interface View {
         void showPokemonInfo(PokemonDetail pokemonDetail);
     }
-    interface Presenter {
+    interface Presenter extends BasePresenter{
         void getPokemonDetails();
     }
 }
