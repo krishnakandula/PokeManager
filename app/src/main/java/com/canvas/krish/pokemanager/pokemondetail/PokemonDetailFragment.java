@@ -95,7 +95,7 @@ public class PokemonDetailFragment extends Fragment implements PokemonDetailCont
     @Override
     public void showPokemonHeader(@NonNull PokemonListItem pokemonListItem) {
         updateArtwork(pokemonListItem);
-        updateUiColors(pokemonListItem.getBackgroundColor(), pokemonListItem.getSecondaryColor());
+        updateUiColors(pokemonListItem.getBackgroundColor(), pokemonListItem.getBackgroundColor());
 
         mNameTextView.setText(pokemonListItem.getName());
         mIdTextView.setText(String.format("#%d", pokemonListItem.getId()));

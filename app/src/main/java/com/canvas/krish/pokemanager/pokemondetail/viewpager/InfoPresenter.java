@@ -3,6 +3,7 @@ package com.canvas.krish.pokemanager.pokemondetail.viewpager;
 import com.canvas.krish.pokemanager.data.PokemonRepositories;
 import com.canvas.krish.pokemanager.data.PokemonRepository;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 
 /**
  * Created by krishnakandula on 1/23/17.
@@ -26,8 +27,8 @@ public class InfoPresenter implements InfoContract.Presenter {
     public void getPokemonDetails() {
         PokemonRepositories.getInMemoryPokemonRepository().getPokemon(pokemonId, new PokemonRepository.GetPokemonCallback() {
             @Override
-            public void onPokemonLoaded(PokemonDetail pokemonDetail) {
-                view.showPokemonInfo(pokemonDetail);
+            public void onPokemonLoaded(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
+                view.showPokemonInfo(pokemonDetail, pokemonListItem);
             }
         });
     }

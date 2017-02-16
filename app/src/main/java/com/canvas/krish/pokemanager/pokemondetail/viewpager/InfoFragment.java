@@ -1,5 +1,6 @@
 package com.canvas.krish.pokemanager.pokemondetail.viewpager;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
+import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 import com.canvas.krish.pokemanager.data.models.detail.Stat;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -66,11 +67,11 @@ public class InfoFragment extends Fragment implements InfoContract.View{
     }
 
     @Override
-    public void showPokemonInfo(PokemonDetail pokemonDetail) {
-        bindStats(pokemonDetail);
+    public void showPokemonInfo(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
+        bindStats(pokemonDetail, pokemonListItem);
     }
 
-    private void bindStats(PokemonDetail pokemonDetail){
+    private void bindStats(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem){
         List<Stat> stats = pokemonDetail.getStats();
         List<BarEntry> entries = new ArrayList<>();
         int index = 0;
@@ -78,12 +79,19 @@ public class InfoFragment extends Fragment implements InfoContract.View{
             entries.add(new BarEntry(index++, stat.getBaseStat()));
 
         BarDataSet dataSet = new BarDataSet(entries, "Stats");
+        dataSet.setColor(pokemonListItem.getBackgroundColor());
         BarData data = new BarData(dataSet);
-        statsChart.setData(data);
-        statsChart.setFitBars(true);
-        statsChart.setHardwareAccelerationEnabled(true);
-        //Refresh chart
-        statsChart.invalidate();
+
+        if(statsChart != null) {
+            statsChart.setData(data);
+            statsChart.getXAxis().setTextColor(Color.WHITE);
+            statsChart.getAxisRight().setEnabled(false);
+            statsChart.getAxisLeft().setTextColor(Color.WHITE);
+            statsChart.setFitBars(true);
+            statsChart.setHardwareAccelerationEnabled(true);
+            //Refresh chart
+            statsChart.invalidate();
+        }
     }
 
     @Override

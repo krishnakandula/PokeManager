@@ -65,7 +65,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
     }
 
     @Override
-    public void getPokemon(@NonNull int pokemonId, @NonNull final GetPokemonCallback callback) {
+    public void getPokemon(@NonNull final int pokemonId, @NonNull final GetPokemonCallback callback) {
         //TODO: Write InMemoryPokemonRepository.getPokemon()
         //Check if mCachedPokemon.get(pokemonId) is null
         //If not, callback.onPokemonLoaded(mCachedPokemon.get(pokemonId).getPokemonDetail())
@@ -73,7 +73,7 @@ public class InMemoryPokemonRepository implements PokemonRepository {
         mPokemonServiceApi.getPokemon(pokemonId, new PokemonServiceApi.PokemonServiceCallback<PokemonDetail>() {
             @Override
             public void onLoaded(PokemonDetail pokemon) {
-                callback.onPokemonLoaded(pokemon);
+                callback.onPokemonLoaded(pokemon, mCachedPokemon.get(pokemonId-1));
             }
         });
     }

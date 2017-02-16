@@ -135,7 +135,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                                 @Override
                                 public void onGenerated(Palette palette) {
                                     pokemon.setBackgroundColor(palette.getMutedColor(defaultColor));
-                                    pokemon.setSecondaryColor(palette.getDarkMutedColor(pokemon.getBackgroundColor()));
+                                    pokemon.setSecondaryColor(palette.getVibrantColor(pokemon.getBackgroundColor()));
                                     mCardView.setBackgroundColor(pokemon.getBackgroundColor());
                                 }
                             });

@@ -41,7 +41,7 @@ public class PokemonDetailPresenter implements PokemonDetailContract.UserActions
         PokemonRepositories.getInMemoryPokemonRepository()
                 .getPokemon(mPokemonId, new PokemonRepository.GetPokemonCallback() {
                     @Override
-                    public void onPokemonLoaded(PokemonDetail pokemonDetail) {
+                    public void onPokemonLoaded(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
                         mDetailView.showPokemonDetails(pokemonDetail);
                     }
         });
