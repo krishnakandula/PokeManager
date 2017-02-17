@@ -25,10 +25,11 @@ public class InfoPresenter implements InfoContract.Presenter {
 
     @Override
     public void getPokemonDetails() {
-
+        view.showLoadingIndicator();
         PokemonRepositories.getInMemoryPokemonRepository().getPokemon(pokemonId, new PokemonRepository.GetPokemonCallback() {
             @Override
             public void onPokemonLoaded(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
+                view.hideLoadingIndicator();
                 view.showPokemonInfo(pokemonDetail, pokemonListItem);
             }
         });

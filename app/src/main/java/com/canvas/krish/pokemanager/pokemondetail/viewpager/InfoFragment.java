@@ -1,9 +1,11 @@
 package com.canvas.krish.pokemanager.pokemondetail.viewpager;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,10 +41,11 @@ public class InfoFragment extends Fragment implements InfoContract.View {
 
     private Unbinder mUnbinder;
     private InfoContract.Presenter mPresenter;
+    private ProgressDialog mProgressDialog;
+    private static final String LOG_TAG = InfoFragment.class.getSimpleName();
 
     public static final String INFO_FRAGMENT_POKEMON_ID_KEY = "info_fragment_pokemon_id_key";
     @BindView(R.id.detail_info_stats_chart) HorizontalBarChart statsChart;
-    @BindView(R.id.detail_info_loading_indicator) AVLoadingIndicatorView loadingIndicator;
 
     public static InfoFragment newInstance(int pokemonId) {
         Bundle args = new Bundle();
@@ -71,56 +74,63 @@ public class InfoFragment extends Fragment implements InfoContract.View {
     @Override
     public void onStart() {
         super.onStart();
-        loadingIndicator.show();
         mPresenter.start();
     }
 
     @Override
     public void showPokemonInfo(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
-        loadingIndicator.smoothToHide();
-        setupBarChart(pokemonDetail, pokemonListItem);
+        showStatsGraph(pokemonDetail);
     }
 
-    private void setupBarChart(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem){
-        List<Stat> stats = pokemonDetail.getStats();
+    private void showStatsGraph(PokemonDetail pokemonDetail){
+        setupBarChart();
+        updateChartData(pokemonDetail.getStats());
+
+        //Refresh chart
+        statsChart.invalidate();
+    }
+
+    private void updateChartData(List<Stat> stats){
         List<BarEntry> entries = new ArrayList<>();
 
         int index = 0;
         for(Stat stat : stats)
-            entries.add(new BarEntry(index++, stat.getBaseStat(), "Hi"));
+            entries.add(new BarEntry(index++, stat.getBaseStat()));
 
         BarDataSet dataSet = new BarDataSet(entries, "Stats");
         dataSet.setColor(Color.WHITE);
-        dataSet.setValueTextColor(Color.WHITE);
-        dataSet.setValueTextSize(17f);
+        dataSet.setDrawValues(false);
+//        dataSet.setValueTextColor(Color.WHITE);
+//        dataSet.setValueTextSize(17f);
 
         BarData data = new BarData(dataSet);
+        statsChart.setData(data);
+        statsChart.invalidate();
+    }
 
-        if(statsChart != null) {
-            statsChart.setData(data);
+    /**
+     * Set the stat chart basic properties
+     */
+    private void setupBarChart(){
+        Description description = new Description();
+        description.setText("");
 
-            Description description = new Description();
-            description.setText("");
-
-            statsChart.setDescription(description);
-            statsChart.getXAxis().setTextColor(Color.WHITE);
-            statsChart.getXAxis().setValueFormatter(xAxisValueFormatter);
-            statsChart.getXAxis().setDrawGridLines(false);
-            statsChart.getXAxis().setDrawLabels(true);
-            statsChart.getAxisRight().setEnabled(false);
-            statsChart.getAxisLeft().setTextColor(Color.WHITE);
-            statsChart.getAxisLeft().setDrawGridLines(false);
-            statsChart.getAxisLeft().setAxisMinimum(0);
-            statsChart.getAxisLeft().setAxisMaximum(150);
-            statsChart.getLegend().setEnabled(false);
-            statsChart.setTouchEnabled(false);
-            statsChart.setFitBars(true);
-            statsChart.setHardwareAccelerationEnabled(true);
-            //Make room for x axis labels on right
-            statsChart.setExtraRightOffset(30f);
-            //Refresh chart
-            statsChart.invalidate();
-        }
+        statsChart.setDescription(description);
+        statsChart.getXAxis().setTextColor(Color.WHITE);
+        statsChart.getXAxis().setValueFormatter(xAxisValueFormatter);
+        statsChart.getXAxis().setDrawGridLines(false);
+        statsChart.getXAxis().setDrawLabels(true);
+        statsChart.getAxisRight().setEnabled(false);
+        statsChart.getAxisLeft().setTextColor(Color.WHITE);
+        statsChart.getAxisLeft().setDrawGridLines(false);
+        statsChart.getAxisLeft().setAxisMinimum(0);
+        statsChart.getAxisLeft().setAxisMaximum(150);
+        statsChart.getLegend().setEnabled(false);
+        statsChart.setTouchEnabled(false);
+        statsChart.setFitBars(true);
+        statsChart.setHardwareAccelerationEnabled(true);
+        //Make room for x axis labels on right
+        statsChart.setExtraRightOffset(25f);
     }
 
     private IAxisValueFormatter xAxisValueFormatter = new IAxisValueFormatter() {
@@ -145,6 +155,27 @@ public class InfoFragment extends Fragment implements InfoContract.View {
             }
         }
     };
+
+    @Override
+    public void showLoadingIndicator() {
+        Log.d(LOG_TAG, "loading indicator");
+        String progressBarTitle = "Loading";
+        String progressBarMessage = "Please wait...";
+        boolean isCancelable = false;
+
+        if(mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getContext());
+        mProgressDialog.setTitle(progressBarTitle);
+        mProgressDialog.setMessage(progressBarMessage);
+        mProgressDialog.setCancelable(isCancelable);
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void hideLoadingIndicator() {
+        if(mProgressDialog != null)
+            mProgressDialog.hide();
+    }
 
     @Override
     public void onDestroyView() {

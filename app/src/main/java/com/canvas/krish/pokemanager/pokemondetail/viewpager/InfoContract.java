@@ -11,8 +11,11 @@ import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 public interface InfoContract {
     interface View {
         void showPokemonInfo(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem);
+        void showLoadingIndicator();
+        void hideLoadingIndicator();
     }
-    interface Presenter extends BasePresenter{
+
+    interface Presenter extends BasePresenter {
         void getPokemonDetails();
     }
 }
