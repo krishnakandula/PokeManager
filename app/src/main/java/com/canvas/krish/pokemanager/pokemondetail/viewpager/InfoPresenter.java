@@ -25,6 +25,7 @@ public class InfoPresenter implements InfoContract.Presenter {
 
     @Override
     public void getPokemonDetails() {
+
         PokemonRepositories.getInMemoryPokemonRepository().getPokemon(pokemonId, new PokemonRepository.GetPokemonCallback() {
             @Override
             public void onPokemonLoaded(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
