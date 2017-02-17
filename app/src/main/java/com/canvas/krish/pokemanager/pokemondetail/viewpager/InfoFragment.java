@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,9 +14,12 @@ import com.canvas.krish.pokemanager.data.models.PokemonDetail;
 import com.canvas.krish.pokemanager.data.models.PokemonListItem;
 import com.canvas.krish.pokemanager.data.models.detail.Stat;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +45,7 @@ public class InfoFragment extends Fragment implements InfoContract.View{
         args.putInt(INFO_FRAGMENT_POKEMON_ID_KEY, pokemonId);
         InfoFragment fragment = new InfoFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -74,21 +79,37 @@ public class InfoFragment extends Fragment implements InfoContract.View{
     private void bindStats(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem){
         List<Stat> stats = pokemonDetail.getStats();
         List<BarEntry> entries = new ArrayList<>();
+
         int index = 0;
         for(Stat stat : stats)
-            entries.add(new BarEntry(index++, stat.getBaseStat()));
+            entries.add(new BarEntry(index++, stat.getBaseStat(), "Hi"));
 
         BarDataSet dataSet = new BarDataSet(entries, "Stats");
-        dataSet.setColor(pokemonListItem.getBackgroundColor());
+        dataSet.setColor(Color.WHITE);
+        dataSet.setValueTextColor(pokemonListItem.getBackgroundColor());
+        dataSet.setValueTextSize(18f);
+
         BarData data = new BarData(dataSet);
 
         if(statsChart != null) {
             statsChart.setData(data);
+
+            Description description = new Description();
+            description.setText("");
+
+            statsChart.setDescription(description);
             statsChart.getXAxis().setTextColor(Color.WHITE);
+            statsChart.getXAxis().setDrawGridLines(false);
             statsChart.getAxisRight().setEnabled(false);
             statsChart.getAxisLeft().setTextColor(Color.WHITE);
+            statsChart.getAxisLeft().setDrawGridLines(false);
+            statsChart.getAxisLeft().setAxisMinimum(0);
+            statsChart.getAxisLeft().setAxisMaximum(150);
+            statsChart.getLegend().setEnabled(false);
+            statsChart.setTouchEnabled(false);
             statsChart.setFitBars(true);
             statsChart.setHardwareAccelerationEnabled(true);
+
             //Refresh chart
             statsChart.invalidate();
         }
