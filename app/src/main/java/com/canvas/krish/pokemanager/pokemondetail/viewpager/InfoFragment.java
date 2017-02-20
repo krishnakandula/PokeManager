@@ -136,7 +136,7 @@ public class InfoFragment extends Fragment implements InfoContract.View {
         statsChart.getAxisLeft().setTextColor(Color.WHITE);
         statsChart.getAxisLeft().setDrawGridLines(false);
         statsChart.getAxisLeft().setAxisMinimum(0);
-        statsChart.getAxisLeft().setAxisMaximum(150);
+        statsChart.getAxisLeft().setAxisMaximum(255);
         statsChart.getLegend().setEnabled(false);
         statsChart.setTouchEnabled(false);
         statsChart.setFitBars(true);
@@ -152,17 +152,17 @@ public class InfoFragment extends Fragment implements InfoContract.View {
             int index = (int) value;
             switch (index){
                 case 0:
-                    return "HP";
-                case 1:
-                    return "Attack";
-                case 2:
-                    return "Defense";
-                case 3:
-                    return "Sp. Atk";
-                case 4:
-                    return "Sp. Def";
-                case 5:
                     return "Speed";
+                case 1:
+                    return "Sp. Def";
+                case 2:
+                    return "Sp. Atk";
+                case 3:
+                    return "Defense";
+                case 4:
+                    return "Attack";
+                case 5:
+                    return "HP";
                 default:
                     return "";
             }
