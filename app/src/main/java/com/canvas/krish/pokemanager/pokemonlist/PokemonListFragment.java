@@ -98,7 +98,7 @@ public class PokemonListFragment extends Fragment implements PokemonListContract
 
 //        Set divider to separate items
         DividerItemDecoration dividerDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-        mPokemonRecyclerView.addItemDecoration(dividerDecoration);
+//        mPokemonRecyclerView.addItemDecoration(dividerDecoration);
 
         mPokemonRecyclerView.setAdapter(new AlphaInAnimationAdapter(animationAdapter));
         mPokemonRecyclerView.setHasFixedSize(true);

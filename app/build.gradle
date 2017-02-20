@@ -57,6 +57,4 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
     //Graph view
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-    //Loading animations
-    compile 'com.wang.avi:library:2.1.3'
 }

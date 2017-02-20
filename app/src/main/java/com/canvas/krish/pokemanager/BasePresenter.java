@@ -6,4 +6,5 @@ package com.canvas.krish.pokemanager;
 
 public interface BasePresenter {
     void start();
+    void onStop();
 }

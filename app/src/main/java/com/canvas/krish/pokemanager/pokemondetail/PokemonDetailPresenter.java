@@ -51,4 +51,9 @@ public class PokemonDetailPresenter implements PokemonDetailContract.UserActions
     public void start() {
         getPokemonDetails();
     }
+
+    @Override
+    public void onStop() {
+
+    }
 }

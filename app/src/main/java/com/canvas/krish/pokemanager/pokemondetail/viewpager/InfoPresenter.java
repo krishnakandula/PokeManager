@@ -34,4 +34,9 @@ public class InfoPresenter implements InfoContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void onStop() {
+        view.hideLoadingIndicator();
+    }
 }

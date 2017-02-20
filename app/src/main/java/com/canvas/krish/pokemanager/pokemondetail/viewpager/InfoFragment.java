@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.canvas.krish.pokemanager.R;
 import com.canvas.krish.pokemanager.data.models.PokemonDetail;
@@ -18,13 +18,11 @@ import com.canvas.krish.pokemanager.data.models.detail.Stat;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +44,9 @@ public class InfoFragment extends Fragment implements InfoContract.View {
 
     public static final String INFO_FRAGMENT_POKEMON_ID_KEY = "info_fragment_pokemon_id_key";
     @BindView(R.id.detail_info_stats_chart) HorizontalBarChart statsChart;
+    @BindView(R.id.detail_info_description_textview) TextView descriptionTextView;
+    @BindView(R.id.detail_info_type1_textview) TextView type1TextView;
+    @BindView(R.id.detail_info_type2_textview) TextView type2TextView;
 
     public static InfoFragment newInstance(int pokemonId) {
         Bundle args = new Bundle();
@@ -79,6 +80,15 @@ public class InfoFragment extends Fragment implements InfoContract.View {
 
     @Override
     public void showPokemonInfo(PokemonDetail pokemonDetail, PokemonListItem pokemonListItem) {
+        descriptionTextView.setText(pokemonListItem.getDescription());
+        //Set types
+        type1TextView.setText(pokemonListItem.getType1());
+        String type2;
+        if((type2 = pokemonListItem.getType2()) != null)
+            type2TextView.setText(type2);
+        else
+            type2TextView.setVisibility(View.GONE);
+
         showStatsGraph(pokemonDetail);
     }
 
@@ -120,6 +130,8 @@ public class InfoFragment extends Fragment implements InfoContract.View {
         statsChart.getXAxis().setValueFormatter(xAxisValueFormatter);
         statsChart.getXAxis().setDrawGridLines(false);
         statsChart.getXAxis().setDrawLabels(true);
+        statsChart.getXAxis().setTextSize(13f);
+        statsChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         statsChart.getAxisRight().setEnabled(false);
         statsChart.getAxisLeft().setTextColor(Color.WHITE);
         statsChart.getAxisLeft().setDrawGridLines(false);
@@ -130,7 +142,8 @@ public class InfoFragment extends Fragment implements InfoContract.View {
         statsChart.setFitBars(true);
         statsChart.setHardwareAccelerationEnabled(true);
         //Make room for x axis labels on right
-        statsChart.setExtraRightOffset(25f);
+//        statsChart.setExtraRightOffset(25f);
+//        statsChart.setExtraLeftOffset(10f);
     }
 
     private IAxisValueFormatter xAxisValueFormatter = new IAxisValueFormatter() {
@@ -165,6 +178,7 @@ public class InfoFragment extends Fragment implements InfoContract.View {
 
         if(mProgressDialog == null)
             mProgressDialog = new ProgressDialog(getContext());
+
         mProgressDialog.setTitle(progressBarTitle);
         mProgressDialog.setMessage(progressBarMessage);
         mProgressDialog.setCancelable(isCancelable);
@@ -173,8 +187,10 @@ public class InfoFragment extends Fragment implements InfoContract.View {
 
     @Override
     public void hideLoadingIndicator() {
-        if(mProgressDialog != null)
+        if(mProgressDialog != null) {
             mProgressDialog.hide();
+            mProgressDialog.cancel();
+        }
     }
 
     @Override
